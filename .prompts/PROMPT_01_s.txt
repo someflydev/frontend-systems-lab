@@ -25,6 +25,10 @@ DO NOT:
 FOCUS:
 Ship one canonical scenario deeply and correctly.
 
+EXECUTION CONTINUITY CONTRACT
+- This prompt establishes the canonical scenario and initial artifact names.
+- Preserve scope contracts and artifact names from earlier prompts unless explicitly overridden in a later prompt.
+
 ------------------------------------------------------------
 SECTION 1 — REPO STRUCTURE
 ------------------------------------------------------------
@@ -141,6 +145,21 @@ Generate a DESIGN_DECISIONS.md file that explains:
 - What problems this repo solves
 - What it intentionally does NOT solve yet
 - Rules for expanding responsibly
+
+------------------------------------------------------------
+SECTION 9 — OUTPUTS + VERIFICATION
+------------------------------------------------------------
+
+Expected outputs:
+- `DESIGN_DECISIONS.md`
+- Directories: `/docs`, `/scenarios`, `/shared`, `/baseline-htmx`, `/tests`, `/scripts`
+- Exactly one second implementation directory: `/react-ts` or `/elm`
+- Placeholder `README.md` files in each created top-level directory
+
+Verification:
+- Confirm all expected directories and files exist.
+- Confirm exactly one of `/react-ts` or `/elm` exists (not both).
+- Confirm one canonical scenario is defined and referenced consistently across baseline and SPA implementation sections.
 
 ------------------------------------------------------------
 CONSTRAINTS

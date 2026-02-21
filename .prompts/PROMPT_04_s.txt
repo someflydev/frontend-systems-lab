@@ -27,11 +27,18 @@ DO NOT:
 FOCUS:
 Depth, realism, operational maturity.
 
+EXECUTION CONTINUITY CONTRACT
+- Preserve scope contracts and artifact names from earlier prompts unless explicitly overridden.
+- Deepen the canonical scenario established in `PROMPT_01_s.txt`; do not replace it.
+
 ------------------------------------------------------------
 SECTION 1 — SELECT AND DEFINE A SERIOUS SCENARIO
 ------------------------------------------------------------
 
-Choose ONE scenario appropriate for a serious frontend system, such as:
+Use the canonical scenario already selected in `PROMPT_01_s.txt`.
+Do not reselect or replace the scenario in this prompt.
+
+If no prior scenario exists, choose ONE scenario appropriate for a serious frontend system, such as:
 
 - Multi-tenant analytics dashboard with role-based permissions
 - Real-time operations monitoring panel
@@ -166,6 +173,23 @@ Simulate:
 - UX impact
 - Fix
 - Preventative improvement
+
+------------------------------------------------------------
+SECTION 10 — OUTPUTS + VERIFICATION
+------------------------------------------------------------
+
+Expected outputs:
+- `/docs/scenarios/canonical-scenario-spec.md`
+- `/docs/operations/production-readiness-checklist.md`
+- `/docs/operations/postmortem-simulation.md`
+- `/docs/operations/smoke-checks.md`
+- Implementation updates in canonical scenario directories selected in `PROMPT_01_s.txt`
+
+Verification:
+- Confirm all expected files exist.
+- Ensure scenario name and identifiers match `PROMPT_01_s.txt` outputs.
+- Ensure no additional scenario directory was introduced.
+- Ensure `/docs/operations/smoke-checks.md` includes explicit pass/fail criteria for implementation hardening.
 
 ------------------------------------------------------------
 

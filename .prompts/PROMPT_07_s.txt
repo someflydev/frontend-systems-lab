@@ -27,6 +27,15 @@ DO NOT:
 FOCUS:
 Create one serious vertical slice spanning multiple repos.
 
+EXECUTION CONTINUITY CONTRACT
+- Preserve scope contracts and artifact names from earlier prompts unless explicitly overridden.
+
+DEPENDENCY FALLBACK RULE
+- Cross-lab integration remains in the initial execution chain.
+- If external repos are unavailable, produce integration assumptions and contract stubs only.
+- Append to existing assumptions content; do not overwrite prior sections.
+- Do not invent or claim code-level artifacts in repositories that are not accessible in the current run.
+
 ------------------------------------------------------------
 SECTION 1 — SELECT A REALISTIC SYSTEM
 ------------------------------------------------------------
@@ -126,3 +135,21 @@ Explain:
 - Why this integration elevates all labs
 - How it demonstrates full-stack systems maturity
 - How it prevents isolated-lab syndrome
+
+------------------------------------------------------------
+SECTION 8 — OUTPUTS + VERIFICATION
+------------------------------------------------------------
+
+Expected outputs:
+- `/docs/integration/cross-lab-scenario.md`
+- `/docs/integration/system-diagrams.md`
+- `/docs/integration/contracts/api-contract.md`
+- `/docs/integration/contracts/error-taxonomy.md`
+- `/docs/integration/contracts/realtime-channel.md`
+
+If external repos are unavailable, also produce:
+- `/docs/integration/ASSUMPTIONS.md`
+
+Verification:
+- Confirm all expected files exist.
+- Ensure cross-lab assumptions are explicitly marked and separated from verified facts.

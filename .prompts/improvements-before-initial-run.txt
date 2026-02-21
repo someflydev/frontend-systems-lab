@@ -1,0 +1,36 @@
+---
+Round: 1
+Timestamp: 2026-02-21T21:27:46Z
+Summary: Applied approved SAFE-AUTO and NEEDS-CONFIRMATION fixes to tighten sequencing, dependency safety, and artifact determinism.
+Changes Applied:
+- .prompts/PROMPT_00_s.txt :: Added execution boundary limiting this prompt to strategy/blueprint only :: Prevent implementation scope explosion before canonical build :: PF-001
+- .prompts/PROMPT_01_s.txt :: Added execution continuity contract :: Preserve upstream scope and naming decisions across prompts :: PF-007
+- .prompts/PROMPT_02_s.txt :: Added continuity contract, prerequisite gate, explicit schema/tool paths, and outputs+verification section :: Reduce premature abstraction and nondeterministic outputs :: PF-003, PF-004, PF-006, PF-007
+- .prompts/PROMPT_03_s.txt :: Added continuity contract and outputs+verification section :: Improve cross-prompt consistency and deterministic governance artifacts :: PF-003, PF-007
+- .prompts/PROMPT_04_s.txt :: Bound scenario to PROMPT_01 selection and added outputs+verification section :: Prevent scenario drift and duplicate scenario creation :: PF-002, PF-003, PF-007
+- .prompts/PROMPT_05_s.txt :: Added continuity contract, external-repo fallback rules, and outputs+verification section :: Prevent fabricated cross-repo claims and improve output determinism :: PF-003, PF-005, PF-007
+- .prompts/PROMPT_06_s.txt :: Added continuity contract, normalized release artifact names (VERSIONING.md/CONTRIBUTING.md/ROADMAP.md), and outputs+verification section :: Standardize artifact naming and improve run determinism :: PF-003, PF-006, PF-007
+- .prompts/PROMPT_07_s.txt :: Added continuity contract, dependency fallback rule, and outputs+verification section :: Keep integration in chain while preventing hallucinated external artifacts :: PF-005, PF-007
+- .prompts/README.md :: Added prompt naming and ordering conventions :: Clarify `_s` semantics and ordering expectations :: PF-009
+Notes / Followups:
+- User intent captured: cross-lab integration remains in initial chain; second implementation remains unlocked (React or Elm can be chosen later).
+- Subtle change snippet (PF-002):
+  Before: "Choose ONE scenario appropriate for a serious frontend system..."
+  After: "Use the canonical scenario already selected in PROMPT_01_s.txt. Do not reselect or replace the scenario..."
+- Subtle change snippet (PF-004):
+  Before: no timing gate for decision engine relative to validated implementation behavior.
+  After: provisional mode before PROMPT_04 validation; docs/schema/CLI scaffold only pre-validation.
+---
+---
+Round: 2
+Timestamp: 2026-02-21T21:36:57Z
+Summary: Applied final SAFE-AUTO polish fixes to remove remaining MED/LOW preflight issues and tighten gate determinism.
+Changes Applied:
+- .prompts/PROMPT_01_s.txt :: Added SECTION 9 (Outputs + Verification) with deterministic directory/file checks and single secondary implementation rule :: Close remaining output ambiguity in initial build prompt :: PF-010
+- .prompts/PROMPT_02_s.txt :: Added canonical validation source reference (`/docs/operations/smoke-checks.md`) in prerequisite gate :: Make gate interpretation consistent across prompts :: PF-012
+- .prompts/PROMPT_04_s.txt :: Added `/docs/operations/smoke-checks.md` output and pass/fail verification requirement :: Provide concrete gate artifact for downstream prompts :: PF-012
+- .prompts/PROMPT_05_s.txt :: Added append-only rule for assumptions fallback path :: Prevent overwrite collisions on shared assumptions doc :: PF-011
+- .prompts/PROMPT_07_s.txt :: Added append-only rule for assumptions fallback path :: Prevent overwrite collisions across integration prompts :: PF-011
+Notes / Followups:
+- No remaining BLOCKER/HIGH issues after Round 2 polish.
+---

@@ -18,6 +18,9 @@ DO NOT:
 FOCUS:
 Stability, clarity, production readiness, and release quality.
 
+EXECUTION CONTINUITY CONTRACT
+- Preserve scope contracts and artifact names from earlier prompts unless explicitly overridden.
+
 ------------------------------------------------------------
 SECTION 1 — DEFINE V1.0 BOUNDARY
 ------------------------------------------------------------
@@ -90,9 +93,9 @@ Prepare:
 
 - CHANGELOG.md (v1.0.0)
 - RELEASE_NOTES.md
-- VERSIONING policy
-- Contribution guidelines
-- Clear roadmap section
+- VERSIONING.md
+- CONTRIBUTING.md
+- ROADMAP.md
 
 ------------------------------------------------------------
 SECTION 6 — PUBLIC SIGNAL REVIEW
@@ -119,3 +122,20 @@ Declare:
 - What future additions must pass to be included
 
 End with a clear v1.0 declaration.
+
+------------------------------------------------------------
+SECTION 8 — OUTPUTS + VERIFICATION
+------------------------------------------------------------
+
+Expected outputs:
+- `CHANGELOG.md`
+- `RELEASE_NOTES.md`
+- `VERSIONING.md`
+- `CONTRIBUTING.md`
+- `ROADMAP.md`
+- `/docs/release/v1-freeze-decision.md`
+
+Verification:
+- Confirm all expected files exist.
+- Ensure `CHANGELOG.md` includes a `v1.0.0` entry.
+- Ensure `RELEASE_NOTES.md` and freeze decision align on included/excluded scope.

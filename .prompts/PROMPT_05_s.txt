@@ -19,6 +19,9 @@ DO NOT:
 FOCUS:
 Extract clarity, signal, and authority from what already exists.
 
+EXECUTION CONTINUITY CONTRACT
+- Preserve scope contracts and artifact names from earlier prompts unless explicitly overridden.
+
 ------------------------------------------------------------
 SECTION 1 — REPO SIGNAL OPTIMIZATION
 ------------------------------------------------------------
@@ -111,6 +114,27 @@ Explain how this repo integrates into:
 - mobile-systems-lab
 
 And how together they form a coherent systems philosophy.
+
+If referenced external repos are unavailable:
+- Produce integration assumptions in `/docs/integration/ASSUMPTIONS.md`.
+- Produce interface contract stubs in `/docs/integration/contracts/`.
+- Append to existing assumptions content; do not overwrite prior sections.
+- Do not invent or claim code-level artifacts inside unavailable repositories.
+
+------------------------------------------------------------
+SECTION 8 — OUTPUTS + VERIFICATION
+------------------------------------------------------------
+
+Expected outputs:
+- Root `README.md` rewrite
+- `/docs/public/case-study.md`
+- `/docs/public/talk-outline-5min.md`
+- `/docs/public/talk-outline-30min.md`
+- `/docs/public/blog-outline.md`
+
+Verification:
+- Confirm all expected files exist.
+- Ensure all public artifacts reference only artifacts already present or explicitly marked assumptions.
 
 ------------------------------------------------------------
 

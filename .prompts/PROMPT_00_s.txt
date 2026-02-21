@@ -35,6 +35,11 @@ NON-GOALS / GUARDRAILS
 - Keep scope tight per stage: every stage has an exit criteria and a “ship” artifact.
 - Provide both “standard conventions” and “unique superpowers” per framework duo.
 
+EXECUTION BOUNDARY
+- This prompt is strategy and blueprint only.
+- Do not create or modify implementation artifacts, code, tests, or runtime configs in this prompt.
+- Implementation artifact generation begins at `PROMPT_01_s.txt`.
+
 AUDIENCE
 A capable developer who wants:
 - correct mental models,

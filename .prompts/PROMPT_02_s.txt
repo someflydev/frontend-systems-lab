@@ -20,6 +20,14 @@ DO NOT:
 FOCUS:
 Formalize how serious engineers choose frontend architecture under real-world constraints.
 
+EXECUTION CONTINUITY CONTRACT
+- Preserve scope contracts and artifact names from earlier prompts unless explicitly overridden.
+
+PREREQUISITE GATE
+- If this prompt runs before implementation hardening is validated in `PROMPT_04_s.txt`, keep outputs provisional.
+- Before `PROMPT_04_s.txt` validation, produce only docs/schema/CLI scaffold artifacts and avoid expanding implementation scope.
+- Canonical validation source: `/docs/operations/smoke-checks.md` generated or updated in `PROMPT_04_s.txt`.
+
 ------------------------------------------------------------
 SECTION 1 — CONSTRAINT TAXONOMY
 ------------------------------------------------------------
@@ -95,6 +103,10 @@ Provide:
 - Example filled scenario
 - Example output ranking
 
+Write artifacts to:
+- `/schemas/scenario.schema.json`
+- `/schemas/examples/scenario.example.json`
+
 ------------------------------------------------------------
 SECTION 4 — DECISION FLOW MODEL
 ------------------------------------------------------------
@@ -147,7 +159,7 @@ Outputs:
 
 Provide:
 - Example output
-- Folder structure for tool
+- Folder structure for tool at `/tools/frontend-lab`
 - Future extension ideas
 
 ------------------------------------------------------------
@@ -160,6 +172,23 @@ Explain:
 - Why frontend decisions are often emotional or trend-driven
 - Why systems-level thinking prevents regret
 - How this differentiates the repository publicly
+
+------------------------------------------------------------
+SECTION 9 — OUTPUTS + VERIFICATION
+------------------------------------------------------------
+
+Expected outputs:
+- `/docs/decision-engine/CONSTRAINT_TAXONOMY.md`
+- `/docs/decision-engine/FRAMEWORK_CAPABILITY_MATRIX.md`
+- `/docs/decision-engine/DECISION_FLOW.md`
+- `/schemas/scenario.schema.json`
+- `/schemas/examples/scenario.example.json`
+- `/tools/frontend-lab/README.md`
+
+Verification:
+- Confirm all expected files exist.
+- Validate schema syntax and parseability.
+- Ensure CLI spec documents `frontend-lab decide scenario.json` and expected output shape.
 
 CONSTRAINTS:
 

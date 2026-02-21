@@ -27,6 +27,9 @@ DO NOT:
 FOCUS:
 Structural integrity and long-term signal preservation.
 
+EXECUTION CONTINUITY CONTRACT
+- Preserve scope contracts and artifact names from earlier prompts unless explicitly overridden.
+
 ------------------------------------------------------------
 SECTION 1 — SCOPE CONTRACT
 ------------------------------------------------------------
@@ -125,6 +128,21 @@ Explain:
 - Why smaller systems age better
 - Why example quality > quantity
 - Why architectural minimalism compounds long-term
+
+------------------------------------------------------------
+SECTION 8 — OUTPUTS + VERIFICATION
+------------------------------------------------------------
+
+Expected outputs:
+- `/docs/governance/SCOPE_CONTRACT.md`
+- `/docs/governance/COMPLEXITY_BUDGET.md`
+- `/docs/governance/EXPANSION_GATES.md`
+- `/docs/governance/DRIFT_SIGNALS.md`
+- `/docs/governance/REFACTOR_OR_DELETE_POLICY.md`
+
+Verification:
+- Confirm all expected files exist.
+- Check that each governance file includes explicit thresholds or gate criteria, not only narrative text.
 
 CONSTRAINTS:
 
