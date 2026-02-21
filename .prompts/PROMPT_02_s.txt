@@ -1,0 +1,172 @@
+You are a Principal Frontend Systems Architect and Systems Design Analyst.
+
+Your job is to generate a formal, reusable, constraint-driven
+Frontend Architecture Decision Engine
+to live inside the repository:
+
+    frontend-systems-lab
+
+This engine must transform the repo from
+“example implementations”
+into
+“architecture-level decision support”.
+
+DO NOT:
+- Generate more implementation examples.
+- Add new frameworks.
+- Add tutorials.
+- Expand the zoo.
+
+FOCUS:
+Formalize how serious engineers choose frontend architecture under real-world constraints.
+
+------------------------------------------------------------
+SECTION 1 — CONSTRAINT TAXONOMY
+------------------------------------------------------------
+
+Define a structured taxonomy of constraints that influence frontend decisions:
+
+Categories must include:
+
+- UX constraints (latency tolerance, interaction density, device class, accessibility)
+- State complexity (local vs global, collaborative vs single-user)
+- Data volatility (static, slow-changing, high-frequency streaming)
+- Correctness requirements (low, moderate, high-assurance domains)
+- Team constraints (team size, skill variance, velocity needs)
+- Operational constraints (CDN heavy, edge-first, offline needs)
+- Regulatory/security constraints
+- Long-term maintenance risk
+
+Each constraint must include:
+- What it is
+- Why it matters
+- How it distorts architecture decisions
+- Failure modes if ignored
+
+------------------------------------------------------------
+SECTION 2 — FRAMEWORK CAPABILITY MATRIX
+------------------------------------------------------------
+
+Build a deep comparison matrix for:
+
+- HTMX
+- React + TS
+- Elm
+- Svelte
+- Vue
+- Flutter Web
+
+Across dimensions:
+
+- State modeling strength
+- Async complexity handling
+- Real-time ergonomics
+- Correctness guarantees
+- Bundle size + performance profile
+- Accessibility ergonomics
+- SEO friendliness
+- Dev velocity
+- Cognitive load
+- Testing maturity
+- Deployment complexity
+
+Provide:
+
+- Strength score (1–5)
+- Risk profile
+- Best-fit scenario archetypes
+- Red-flag conditions
+
+------------------------------------------------------------
+SECTION 3 — SCENARIO WEIGHTING SYSTEM
+------------------------------------------------------------
+
+Design a scoring framework where:
+
+- A scenario can be described in structured form
+- Constraints are weighted
+- Frameworks are scored automatically
+- A ranked recommendation emerges
+
+Provide:
+
+- JSON schema for describing a scenario
+- Scoring algorithm logic
+- Example filled scenario
+- Example output ranking
+
+------------------------------------------------------------
+SECTION 4 — DECISION FLOW MODEL
+------------------------------------------------------------
+
+Create:
+
+- A decision tree (text + mermaid diagram)
+- A fast-path heuristic flow
+- A “slow-path deep analysis” flow
+
+------------------------------------------------------------
+SECTION 5 — FAILURE TRAJECTORY SIMULATION
+------------------------------------------------------------
+
+Describe:
+
+If the wrong framework is chosen:
+- What degrades first?
+- What becomes brittle?
+- Where velocity collapses?
+- What refactor cost looks like?
+
+Simulate at least 3 failure scenarios.
+
+------------------------------------------------------------
+SECTION 6 — ARCHITECTURE DRIFT DETECTION
+------------------------------------------------------------
+
+Define:
+
+- Signals that your frontend architecture no longer fits
+- Metrics to monitor
+- Refactor triggers
+- Safe migration strategies
+
+------------------------------------------------------------
+SECTION 7 — CLI/TUI DECISION TOOL SCAFFOLD
+------------------------------------------------------------
+
+Design a minimal CLI spec:
+
+frontend-lab decide scenario.json
+
+Outputs:
+
+- Ranked frameworks
+- Tradeoff explanation
+- Risk warnings
+- Migration notes
+
+Provide:
+- Example output
+- Folder structure for tool
+- Future extension ideas
+
+------------------------------------------------------------
+SECTION 8 — DESIGN DECISION PHILOSOPHY
+------------------------------------------------------------
+
+Explain:
+
+- Why this engine exists
+- Why frontend decisions are often emotional or trend-driven
+- Why systems-level thinking prevents regret
+- How this differentiates the repository publicly
+
+CONSTRAINTS:
+
+- Be precise.
+- No vague statements.
+- Provide structure, tables, and diagrams.
+- Avoid hype.
+- This must feel enterprise-grade and durable.
+
+Begin now.

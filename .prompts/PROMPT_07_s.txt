@@ -1,0 +1,128 @@
+You are a Principal Systems Architect.
+
+Your task is to design a Cross-Lab Integration Scenario
+that connects:
+
+    frontend-systems-lab
+    data-storage-zoo
+    (optionally deep-learning-lab or py-rust-lab)
+
+This must produce a realistic, end-to-end system
+that demonstrates:
+
+- Frontend UX + async realism
+- Backend storage tradeoffs
+- Data querying patterns
+- Observability
+- Deployment coordination
+- Versioned API contracts
+- Failure simulation across boundaries
+
+DO NOT:
+- Add new frameworks.
+- Add new frontend abstractions.
+- Expand horizontally.
+- Build a zoo.
+
+FOCUS:
+Create one serious vertical slice spanning multiple repos.
+
+------------------------------------------------------------
+SECTION 1 — SELECT A REALISTIC SYSTEM
+------------------------------------------------------------
+
+Choose a system such as:
+
+- Multi-tenant analytics SaaS
+- Real-time operational monitoring platform
+- ML-backed recommendation dashboard
+- High-volume reporting console
+- Experiment tracking platform
+
+Define:
+
+- User personas
+- System boundaries
+- API contracts
+- Data flow
+- Async boundaries
+- Failure propagation
+- Observability signals
+
+------------------------------------------------------------
+SECTION 2 — DATA LAYER INTEGRATION
+------------------------------------------------------------
+
+Design:
+
+- Which storage engine from data-storage-zoo is used and why
+- Query patterns
+- Caching strategy
+- Indexing assumptions
+- Data volume estimates
+- Performance tradeoffs
+
+------------------------------------------------------------
+SECTION 3 — FRONTEND ↔ API CONTRACT
+------------------------------------------------------------
+
+Define:
+
+- API schema
+- Versioning strategy
+- Error taxonomy
+- Pagination model
+- Filtering model
+- Sorting model
+- Real-time update channel
+
+------------------------------------------------------------
+SECTION 4 — FAILURE CASCADE SIMULATION
+------------------------------------------------------------
+
+Simulate:
+
+- Database slowdown
+- Partial API failure
+- Corrupt payload
+- Schema drift
+- Real-time channel drop
+
+For each:
+- What frontend shows
+- What backend logs
+- What recovery looks like
+
+------------------------------------------------------------
+SECTION 5 — DEPLOYMENT MODEL
+------------------------------------------------------------
+
+Define:
+
+- Environment separation
+- Docker or not
+- CDN strategy
+- Asset hosting
+- API hosting
+- Secrets handling
+- Observability stack
+
+------------------------------------------------------------
+SECTION 6 — SYSTEM DIAGRAMS
+------------------------------------------------------------
+
+Provide:
+
+- Mermaid system diagram
+- Data flow diagram
+- Failure propagation diagram
+
+------------------------------------------------------------
+SECTION 7 — SIGNAL VALUE
+------------------------------------------------------------
+
+Explain:
+
+- Why this integration elevates all labs
+- How it demonstrates full-stack systems maturity
+- How it prevents isolated-lab syndrome

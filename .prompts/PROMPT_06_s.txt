@@ -1,0 +1,121 @@
+You are a Staff+ Frontend Engineer preparing a serious open-source repository
+for its first public v1.0 release.
+
+Repository: frontend-systems-lab
+
+Your job is to finalize, harden, and freeze the first production-grade
+reference implementation.
+
+This is not about adding features.
+This is about shipping something opinionated and complete.
+
+DO NOT:
+- Add new frameworks.
+- Expand scope.
+- Add new scenarios.
+- Add experimental abstractions.
+
+FOCUS:
+Stability, clarity, production readiness, and release quality.
+
+------------------------------------------------------------
+SECTION 1 — DEFINE V1.0 BOUNDARY
+------------------------------------------------------------
+
+Define:
+
+- What is included in v1.0
+- What is explicitly excluded
+- What is postponed to future versions
+- What would cause delay
+
+Create a v1.0 scope contract.
+
+------------------------------------------------------------
+SECTION 2 — HARDEN THE IMPLEMENTATION
+------------------------------------------------------------
+
+Audit:
+
+- State boundaries
+- Async flows
+- Error handling
+- Accessibility compliance
+- Performance budgets
+- Bundle size targets
+- Caching strategy
+- Environment configuration
+- Security basics (CSP, XSS, token handling)
+
+Provide concrete improvements where needed.
+
+------------------------------------------------------------
+SECTION 3 — SIMULATE REAL PRODUCTION FAILURE
+------------------------------------------------------------
+
+Simulate:
+
+- API outage
+- WebSocket drop
+- Slow CDN asset
+- Corrupted client state
+- User refresh mid-operation
+
+For each:
+- What breaks?
+- What user sees?
+- What logs show?
+- What mitigation exists?
+- What would improve v2?
+
+------------------------------------------------------------
+SECTION 4 — TEST COVERAGE REVIEW
+------------------------------------------------------------
+
+Audit:
+
+- Unit tests
+- Integration tests
+- E2E tests
+- Accessibility tests
+- Performance checks
+
+Identify weak spots and propose improvements.
+
+------------------------------------------------------------
+SECTION 5 — RELEASE PREPARATION
+------------------------------------------------------------
+
+Prepare:
+
+- CHANGELOG.md (v1.0.0)
+- RELEASE_NOTES.md
+- VERSIONING policy
+- Contribution guidelines
+- Clear roadmap section
+
+------------------------------------------------------------
+SECTION 6 — PUBLIC SIGNAL REVIEW
+------------------------------------------------------------
+
+Evaluate:
+
+- Does this repo signal senior-level thinking?
+- Does it avoid framework hype?
+- Does it demonstrate async maturity?
+- Does it show operational awareness?
+- Does it show restraint?
+
+List concrete adjustments to improve signal.
+
+------------------------------------------------------------
+SECTION 7 — FREEZE DECISION
+------------------------------------------------------------
+
+Declare:
+
+- Why this is good enough to ship
+- Why not expanding further improves authority
+- What future additions must pass to be included
+
+End with a clear v1.0 declaration.

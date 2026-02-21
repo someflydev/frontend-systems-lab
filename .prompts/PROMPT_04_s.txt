@@ -1,0 +1,178 @@
+You are a Staff+ Frontend Engineer tasked with building a production-grade
+reference implementation inside:
+
+    frontend-systems-lab
+
+Your goal is to produce a single, deeply realistic,
+end-to-end, production-simulated case study that demonstrates:
+
+- UX discipline
+- Async correctness
+- Performance awareness
+- Accessibility compliance
+- Testing maturity
+- Deployment seriousness
+- Observability thinking
+- Failure handling
+
+This must feel like a real system shipped to production,
+not a demo or tutorial.
+
+DO NOT:
+- Add new frameworks.
+- Add comparisons.
+- Add architecture matrices.
+- Add abstractions for the sake of abstraction.
+
+FOCUS:
+Depth, realism, operational maturity.
+
+------------------------------------------------------------
+SECTION 1 — SELECT AND DEFINE A SERIOUS SCENARIO
+------------------------------------------------------------
+
+Choose ONE scenario appropriate for a serious frontend system, such as:
+
+- Multi-tenant analytics dashboard with role-based permissions
+- Real-time operations monitoring panel
+- Financial onboarding workflow with regulatory constraints
+- Admin back-office system with audit trails
+- Content-heavy SaaS marketing + conversion funnel + logged-in app
+
+Define:
+
+- User personas
+- Realistic constraints
+- Data volume assumptions
+- Latency profiles
+- Failure conditions
+- Accessibility requirements
+- Mobile + large-display behavior
+- Security considerations
+
+------------------------------------------------------------
+SECTION 2 — UX ARCHITECTURE
+------------------------------------------------------------
+
+Define:
+
+- Interaction model
+- State boundaries
+- Error display patterns
+- Loading states
+- Optimistic vs pessimistic updates
+- Empty states
+- Offline/reconnect behavior
+
+Explain:
+- What it is
+- Why it matters
+- How it fails
+- How we test it
+
+------------------------------------------------------------
+SECTION 3 — ASYNC REALISM
+------------------------------------------------------------
+
+Simulate:
+
+- Slow API responses
+- Partial failure (some panels fail, others succeed)
+- Stale-while-revalidate behavior
+- Retry with backoff
+- WebSocket disconnect + resync
+- File upload with progress + cancelation
+
+Provide UX handling strategy for each.
+
+------------------------------------------------------------
+SECTION 4 — PERFORMANCE MODEL
+------------------------------------------------------------
+
+Define:
+
+- Bundle size targets
+- Code splitting strategy
+- Lazy loading strategy
+- Image pipeline strategy
+- Font loading strategy
+- Caching headers
+- CDN invalidation plan
+
+Explain tradeoffs.
+
+------------------------------------------------------------
+SECTION 5 — ACCESSIBILITY & RESPONSIVENESS
+------------------------------------------------------------
+
+Define:
+
+- Keyboard flows
+- Focus management
+- ARIA rules (minimal, justified)
+- Color contrast strategy
+- Large display density adjustments
+- Mobile collapse rules
+
+------------------------------------------------------------
+SECTION 6 — TESTING DEPTH
+------------------------------------------------------------
+
+Provide examples of:
+
+- Unit test
+- Component test
+- Integration test
+- E2E test
+- Accessibility test
+- Performance budget gate
+
+Explain what each prevents.
+
+------------------------------------------------------------
+SECTION 7 — OBSERVABILITY & OPERATIONS
+------------------------------------------------------------
+
+Define:
+
+- Client error logging
+- Performance monitoring
+- Feature flag strategy
+- Release gating
+- Rollback strategy
+- Runtime config handling
+
+------------------------------------------------------------
+SECTION 8 — PRODUCTION READINESS CHECKLIST
+------------------------------------------------------------
+
+Create a serious checklist for:
+
+- Security review
+- Performance review
+- Accessibility audit
+- Cross-browser validation
+- Cache validation
+- Error boundary validation
+
+------------------------------------------------------------
+SECTION 9 — POSTMORTEM SIMULATION
+------------------------------------------------------------
+
+Simulate:
+
+- A production incident
+- Root cause
+- UX impact
+- Fix
+- Preventative improvement
+
+------------------------------------------------------------
+
+Constraints:
+
+- Be specific.
+- No fluff.
+- No “in a real app you would…”.
+- Treat this as a real production deployment.
+- Favor clarity over cleverness.

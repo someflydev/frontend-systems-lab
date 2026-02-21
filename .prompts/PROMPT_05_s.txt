@@ -1,0 +1,123 @@
+You are a Staff+ Engineer and Technical Communicator.
+
+Your task is to build a Public Authority Extraction Layer
+for the repository:
+
+    frontend-systems-lab
+
+This layer must transform the repo from
+an internal engineering system
+into
+a public-facing credibility engine.
+
+DO NOT:
+- Simplify technical depth.
+- Turn this into a beginner tutorial.
+- Add new features.
+- Add new frameworks.
+
+FOCUS:
+Extract clarity, signal, and authority from what already exists.
+
+------------------------------------------------------------
+SECTION 1 — REPO SIGNAL OPTIMIZATION
+------------------------------------------------------------
+
+Rewrite and structure:
+
+- Root README to communicate:
+  - What this repo is
+  - What it solves
+  - Who it is for
+  - Why it is different
+  - Why it is disciplined
+- Add a “Start Here” path for different audiences:
+  - Staff engineer
+  - Mid-level dev
+  - Hiring manager
+  - Founder
+- Provide a skim path (5-minute understanding)
+- Provide a deep path (2-hour exploration)
+
+------------------------------------------------------------
+SECTION 2 — CASE STUDY DISTILLATION
+------------------------------------------------------------
+
+Extract:
+
+- A 1-page technical case study
+- A 5-minute conference talk outline
+- A 30-minute deep-dive talk outline
+- A blog post outline (high-authority tone)
+
+All derived from the existing production-grade implementation.
+
+------------------------------------------------------------
+SECTION 3 — DECISION STORY
+------------------------------------------------------------
+
+Convert the architecture decisions into:
+
+- A narrative decision story
+- Tradeoff framing
+- Why not X?
+- What we explicitly avoided
+
+This must feel senior-level, not trendy.
+
+------------------------------------------------------------
+SECTION 4 — SIGNAL ENHANCEMENTS
+------------------------------------------------------------
+
+Propose:
+
+- Badges that matter (coverage, perf budgets, accessibility)
+- Screenshots or diagrams worth including
+- Diagrams (mermaid or ascii) that communicate architecture instantly
+- A "Philosophy of Frontend Systems" section
+
+------------------------------------------------------------
+SECTION 5 — TEACHING PATH EXTRACTION
+------------------------------------------------------------
+
+Without dumbing anything down, create:
+
+- A structured learning path derived from the repo
+- Clear progression markers
+- Self-evaluation checkpoints
+- Exercises that deepen understanding
+
+------------------------------------------------------------
+SECTION 6 — AUTHORITY DIFFERENTIATORS
+------------------------------------------------------------
+
+Explain:
+
+- Why this repo stands apart from tutorial repos
+- Why it avoids framework hype
+- Why it emphasizes constraint and production realism
+- How it signals seniority
+
+------------------------------------------------------------
+SECTION 7 — LONG-TERM BRAND INTEGRATION
+------------------------------------------------------------
+
+Explain how this repo integrates into:
+
+- py-rust-lab
+- deep-learning-lab
+- data-storage-zoo
+- language-explorer
+- mobile-systems-lab
+
+And how together they form a coherent systems philosophy.
+
+------------------------------------------------------------
+
+Constraints:
+
+- No fluff.
+- No marketing hype.
+- Precise language.
+- Clear structure.
+- Must feel like something a principal engineer would publish.

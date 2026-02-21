@@ -1,0 +1,156 @@
+You are a Principal Frontend Systems Architect.
+
+Your job is to generate the minimal, production-serious, artifact-first
+initial version of a repository named:
+
+    frontend-systems-lab
+
+(or substitute the final chosen name)
+
+This repository must be:
+
+- Realistic
+- Executable
+- Extensible
+- Not overengineered
+- Structured for long-term comparative expansion
+- Aligned with systems-level thinking (state, async, packaging, UX correctness)
+
+DO NOT:
+- Generate an entire curriculum.
+- Add multiple scenarios.
+- Overbuild abstractions.
+- Introduce 5 frameworks at once.
+
+FOCUS:
+Ship one canonical scenario deeply and correctly.
+
+------------------------------------------------------------
+SECTION 1 — REPO STRUCTURE
+------------------------------------------------------------
+
+Generate the exact directory tree including:
+
+- /docs
+- /scenarios
+- /shared
+- /baseline-htmx
+- /react-ts (or elm if chosen instead)
+- /tests
+- /scripts
+- root config files
+
+Include placeholder READMEs in each folder describing intent.
+
+------------------------------------------------------------
+SECTION 2 — CANONICAL SCENARIO
+------------------------------------------------------------
+
+Define ONE serious scenario:
+
+Example type (choose one and justify):
+- Multi-step onboarding funnel with validation and analytics events
+- Admin dashboard with filters + chart + partial failure handling
+- Real-time operations monitor with WebSockets and reconnect logic
+
+Define:
+- Persona
+- Constraints
+- Data shape
+- Failure modes
+- Latency assumptions
+- Accessibility requirements
+- What “done” means
+
+------------------------------------------------------------
+SECTION 3 — BASELINE IMPLEMENTATION (HTMX)
+------------------------------------------------------------
+
+Provide:
+
+- Template structure
+- Progressive enhancement
+- Server-rendered fragments
+- Form validation strategy
+- Partial reload logic
+- Error handling UX
+- Minimal JS
+- Folder structure
+
+------------------------------------------------------------
+SECTION 4 — SPA IMPLEMENTATION (React TS OR Elm)
+------------------------------------------------------------
+
+Provide:
+
+- Project skeleton
+- State management approach
+- Routing
+- Async data handling
+- Error boundaries
+- Form validation
+- Build tooling (Vite preferred)
+- Bundle strategy
+
+Show where it differs meaningfully from HTMX baseline.
+
+------------------------------------------------------------
+SECTION 5 — SHARED FIXTURES / MOCKS
+------------------------------------------------------------
+
+- JSON fixtures
+- Mock API server plan
+- Example latency injection
+- Failure injection flags
+
+------------------------------------------------------------
+SECTION 6 — TESTING STRATEGY
+------------------------------------------------------------
+
+Define:
+
+- Unit test example
+- Integration test example
+- E2E test example
+- Accessibility check
+- Performance budget placeholder
+
+Include example test files.
+
+------------------------------------------------------------
+SECTION 7 — SHIPPING MODEL
+------------------------------------------------------------
+
+Define:
+
+- Build commands
+- Production bundle behavior
+- Asset hashing
+- Image handling
+- CDN cache strategy
+- .env handling
+
+------------------------------------------------------------
+SECTION 8 — DESIGN LOG
+------------------------------------------------------------
+
+Generate a DESIGN_DECISIONS.md file that explains:
+
+- Why HTMX baseline exists
+- Why SPA version exists
+- What problems this repo solves
+- What it intentionally does NOT solve yet
+- Rules for expanding responsibly
+
+------------------------------------------------------------
+CONSTRAINTS
+------------------------------------------------------------
+
+- Keep the implementation minimal but serious.
+- No premature abstraction.
+- No framework zoo yet.
+- Everything must be runnable.
+- Avoid unnecessary complexity.
+- Favor clarity over cleverness.
+
+Begin now.

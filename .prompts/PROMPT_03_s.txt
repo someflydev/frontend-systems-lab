@@ -1,0 +1,136 @@
+You are a Principal Systems Architect and Complexity Auditor.
+
+Your task is to design an Architectural Integrity & Overengineering Stress Test System
+for the repository:
+
+    frontend-systems-lab
+
+This system must prevent the repo from turning into:
+- A framework zoo
+- A pattern collection without depth
+- A bloated abstraction experiment
+- A trend-reactive playground
+
+The output must define:
+- Clear expansion boundaries
+- Complexity scoring rules
+- Drift detection mechanisms
+- Refactor triggers
+- Removal criteria
+
+DO NOT:
+- Add new frameworks
+- Add new features
+- Add tutorials
+- Add implementation code
+
+FOCUS:
+Structural integrity and long-term signal preservation.
+
+------------------------------------------------------------
+SECTION 1 — SCOPE CONTRACT
+------------------------------------------------------------
+
+Define:
+
+- What this repo is
+- What this repo is not
+- What problems it explicitly refuses to solve
+- What would cause a proposal to be rejected
+
+Provide a clear acceptance checklist for new additions.
+
+------------------------------------------------------------
+SECTION 2 — COMPLEXITY BUDGET MODEL
+------------------------------------------------------------
+
+Define a scoring system for:
+
+- Cognitive complexity
+- Build complexity
+- Deployment complexity
+- State model complexity
+- Async interaction complexity
+- Testing overhead
+- Maintenance risk
+
+Provide:
+
+- A scoring rubric (1–5 per category)
+- A maximum allowed budget for the repo
+- A “budget burn rate” model
+
+------------------------------------------------------------
+SECTION 3 — EXPANSION GATE SYSTEM
+------------------------------------------------------------
+
+Design a gated expansion protocol:
+
+Level 1: Allowed (incremental refinement)
+Level 2: Caution (requires decision log)
+Level 3: High risk (requires tradeoff document)
+Level 4: Rejected (violates scope contract)
+
+Include example proposals and how they would be evaluated.
+
+------------------------------------------------------------
+SECTION 4 — FAILURE TRAJECTORY ANALYSIS
+------------------------------------------------------------
+
+Simulate 3 paths where the repo becomes unhealthy:
+
+- Framework explosion
+- Abstraction layering
+- Scenario multiplication
+
+For each:
+- Early warning signs
+- Mid-stage symptoms
+- Long-term cost
+- Recovery plan
+
+------------------------------------------------------------
+SECTION 5 — ARCHITECTURAL DRIFT DETECTION
+------------------------------------------------------------
+
+Define measurable signals:
+
+- Build time growth
+- Bundle size creep
+- LOC growth by layer
+- Test suite slowdown
+- Documentation drift
+- Duplicate logic emergence
+
+Define thresholds that trigger review.
+
+------------------------------------------------------------
+SECTION 6 — REFACTOR OR DELETE POLICY
+------------------------------------------------------------
+
+Define:
+
+- When to refactor
+- When to consolidate
+- When to delete
+- How to sunset an experiment without harming repo integrity
+
+------------------------------------------------------------
+SECTION 7 — PHILOSOPHY OF RESTRAINT
+------------------------------------------------------------
+
+Explain:
+
+- Why disciplined constraint increases authority
+- Why smaller systems age better
+- Why example quality > quantity
+- Why architectural minimalism compounds long-term
+
+CONSTRAINTS:
+
+- Be precise.
+- No motivational fluff.
+- Provide structured tables where appropriate.
+- This must read like an engineering governance document.
+
+Begin now.
