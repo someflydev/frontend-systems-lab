@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://frontend-systems-lab.local/schemas/scenario.schema.json",
+  "title": "Frontend Decision Scenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "scenario_id",
+    "name",
+    "version",
+    "constraints",
+    "weights",
+    "metadata"
+  ],
+  "properties": {
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^SCN-[0-9]{3}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "created_at", "decision_mode"],
+      "properties": {
+        "owner": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "decision_mode": { "type": "string", "enum": ["fast-path", "slow-path"] }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ux",
+        "state",
+        "data",
+        "correctness",
+        "team",
+        "operations",
+        "security",
+        "maintenance"
+      ],
+      "properties": {
+        "ux": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["latency_tolerance_ms", "interaction_density", "device_class_mix", "accessibility_criticality", "seo_critical"],
+          "properties": {
+            "latency_tolerance_ms": { "type": "integer", "minimum": 50 },
+            "interaction_density": { "type": "string", "enum": ["low", "medium", "high"] },
+            "device_class_mix": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "enum": ["mobile", "desktop", "large-display"] }
+            },
+            "accessibility_criticality": { "type": "string", "enum": ["baseline", "high", "regulated"] },
+            "seo_critical": { "type": "boolean" }
+          }
+        },
+        "state": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state_scope", "collaboration_mode", "conflict_probability"],
+          "properties": {
+            "state_scope": { "type": "string", "enum": ["local", "mixed", "global"] },
+            "collaboration_mode": { "type": "string", "enum": ["single-user", "multi-user", "collaborative-realtime"] },
+            "conflict_probability": { "type": "string", "enum": ["low", "medium", "high"] }
+          }
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["volatility", "freshness_sla_seconds", "offline_reconciliation_need"],
+          "properties": {
+            "volatility": { "type": "string", "enum": ["static", "slow-changing", "bursty", "high-frequency-streaming"] },
+            "freshness_sla_seconds": { "type": "integer", "minimum": 0 },
+            "offline_reconciliation_need": { "type": "string", "enum": ["none", "light", "robust"] }
+          }
+        },
+        "correctness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["assurance_level", "idempotency_required", "audit_trail_required"],
+          "properties": {
+            "assurance_level": { "type": "string", "enum": ["low", "moderate", "high-assurance"] },
+            "idempotency_required": { "type": "boolean" },
+            "audit_trail_required": { "type": "boolean" }
+          }
+        },
+        "team": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["team_size", "skill_variance", "delivery_pressure"],
+          "properties": {
+            "team_size": { "type": "integer", "minimum": 1 },
+            "skill_variance": { "type": "string", "enum": ["low", "medium", "high"] },
+            "delivery_pressure": { "type": "string", "enum": ["low", "medium", "high"] }
+          }
+        },
+        "operations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["hosting_mode", "deploy_frequency_per_week", "runtime_observability_maturity"],
+          "properties": {
+            "hosting_mode": { "type": "string", "enum": ["standard-cdn", "cdn-heavy", "edge-first"] },
+            "deploy_frequency_per_week": { "type": "integer", "minimum": 0 },
+            "runtime_observability_maturity": { "type": "string", "enum": ["low", "medium", "high"] }
+          }
+        },
+        "security": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["regulatory_profile", "data_residency_restrictions", "security_review_frequency"],
+          "properties": {
+            "regulatory_profile": { "type": "string", "enum": ["none", "pii", "pci", "hipaa", "sox", "mixed"] },
+            "data_residency_restrictions": { "type": "boolean" },
+            "security_review_frequency": { "type": "string", "enum": ["none", "periodic", "per-release"] }
+          }
+        },
+        "maintenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["product_horizon_months", "integration_surface", "expected_team_churn"],
+          "properties": {
+            "product_horizon_months": { "type": "integer", "minimum": 1 },
+            "integration_surface": { "type": "string", "enum": ["small", "medium", "large"] },
+            "expected_team_churn": { "type": "string", "enum": ["low", "medium", "high"] }
+          }
+        }
+      }
+    },
+    "weights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_modeling_strength",
+        "async_complexity_handling",
+        "realtime_ergonomics",
+        "correctness_guarantees",
+        "bundle_performance_profile",
+        "accessibility_ergonomics",
+        "seo_friendliness",
+        "dev_velocity",
+        "cognitive_load",
+        "testing_maturity",
+        "deployment_complexity"
+      ],
+      "properties": {
+        "state_modeling_strength": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "async_complexity_handling": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "realtime_ergonomics": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "correctness_guarantees": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "bundle_performance_profile": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "accessibility_ergonomics": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "seo_friendliness": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "dev_velocity": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "cognitive_load": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "testing_maturity": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "deployment_complexity": { "type": "integer", "minimum": 0, "maximum": 5 }
+      }
+    }
+  }
+}

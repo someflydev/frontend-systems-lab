@@ -1,0 +1,67 @@
+{
+  "scenario_id": "SCN-001",
+  "name": "Mortgage Refinance Funnel with Realtime Advisor Availability",
+  "version": "1.0.0",
+  "metadata": {
+    "owner": "frontend-platform",
+    "created_at": "2026-02-21T16:20:00Z",
+    "decision_mode": "slow-path"
+  },
+  "constraints": {
+    "ux": {
+      "latency_tolerance_ms": 1200,
+      "interaction_density": "medium",
+      "device_class_mix": ["mobile", "desktop"],
+      "accessibility_criticality": "high",
+      "seo_critical": true
+    },
+    "state": {
+      "state_scope": "mixed",
+      "collaboration_mode": "multi-user",
+      "conflict_probability": "medium"
+    },
+    "data": {
+      "volatility": "bursty",
+      "freshness_sla_seconds": 10,
+      "offline_reconciliation_need": "light"
+    },
+    "correctness": {
+      "assurance_level": "high-assurance",
+      "idempotency_required": true,
+      "audit_trail_required": true
+    },
+    "team": {
+      "team_size": 8,
+      "skill_variance": "medium",
+      "delivery_pressure": "high"
+    },
+    "operations": {
+      "hosting_mode": "cdn-heavy",
+      "deploy_frequency_per_week": 8,
+      "runtime_observability_maturity": "medium"
+    },
+    "security": {
+      "regulatory_profile": "pii",
+      "data_residency_restrictions": false,
+      "security_review_frequency": "per-release"
+    },
+    "maintenance": {
+      "product_horizon_months": 36,
+      "integration_surface": "medium",
+      "expected_team_churn": "medium"
+    }
+  },
+  "weights": {
+    "state_modeling_strength": 4,
+    "async_complexity_handling": 5,
+    "realtime_ergonomics": 3,
+    "correctness_guarantees": 5,
+    "bundle_performance_profile": 3,
+    "accessibility_ergonomics": 5,
+    "seo_friendliness": 4,
+    "dev_velocity": 4,
+    "cognitive_load": 3,
+    "testing_maturity": 4,
+    "deployment_complexity": 3
+  }
+}
