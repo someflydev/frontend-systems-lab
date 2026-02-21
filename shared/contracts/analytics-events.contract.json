@@ -1,0 +1,15 @@
+{
+  "eventTypes": [
+    "funnel_view",
+    "step_advanced",
+    "validation_failed",
+    "lead_submitted"
+  ],
+  "requiredFields": [
+    "scenarioId",
+    "scenarioVersion",
+    "eventType",
+    "step",
+    "timestamp"
+  ]
+}

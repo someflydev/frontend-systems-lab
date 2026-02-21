@@ -1,0 +1,20 @@
+{
+  "scenarioId": "SCN-001",
+  "scenarioVersion": "1.0.0",
+  "idempotencyKey": "bad",
+  "contact": {
+    "fullName": "",
+    "email": "wrong-format",
+    "phone": "123",
+    "zip": "94"
+  },
+  "loan": {
+    "homeValue": 40000,
+    "currentBalance": 80000,
+    "creditRange": ""
+  },
+  "consent": {
+    "agreed": false,
+    "timestamp": ""
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "frontend-systems-lab",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "baseline-htmx",
+    "react-ts"
+  ],
+  "scripts": {
+    "dev:htmx": "npm run dev --workspace baseline-htmx",
+    "dev:react": "npm run dev --workspace react-ts",
+    "dev:mock-api": "node scripts/mock-api.mjs",
+    "test": "node --test tests/unit/*.test.mjs",
+    "test:integration": "node --test tests/integration/*.test.mjs",
+    "test:e2e": "node tests/e2e/funnel.e2e.mjs",
+    "check:a11y": "node scripts/check-a11y.mjs",
+    "check:perf": "node scripts/check-perf-budget.mjs",
+    "verify:outputs": "bash scripts/verify-outputs.sh"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

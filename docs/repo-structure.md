@@ -1,0 +1,69 @@
+# Initial Repository Structure
+
+```text
+frontend-systems-lab/
+  .env.example
+  .gitignore
+  DESIGN_DECISIONS.md
+  README.md
+  package.json
+  docs/
+    README.md
+    canonical-scenario.md
+    shipping-model.md
+    repo-structure.md
+    frontends-foundry-blueprint/
+  scenarios/
+    README.md
+    SCN-001-mortgage-refinance-funnel/
+      README.md
+      scenario.json
+  shared/
+    README.md
+    contracts/
+      lead-submission.contract.json
+      analytics-events.contract.json
+    fixtures/
+      lead.valid.json
+      lead.invalid.json
+      failure-flags.json
+    validation/
+      leadValidation.mjs
+  baseline-htmx/
+    README.md
+    package.json
+    src/
+      server.mjs
+      templates/
+        fragments/
+  react-ts/
+    README.md
+    package.json
+    index.html
+    tsconfig.json
+    tsconfig.node.json
+    vite.config.ts
+    src/
+      main.tsx
+      App.tsx
+      styles.css
+  tests/
+    README.md
+    unit/
+      validation.test.mjs
+    integration/
+      mock-api-submit.test.mjs
+    e2e/
+      funnel.e2e.mjs
+  scripts/
+    README.md
+    mock-api.mjs
+    check-a11y.mjs
+    check-perf-budget.mjs
+    verify-outputs.sh
+```
+
+Notes:
+
+- Exactly one second implementation directory exists: `react-ts`.
+- `elm` is intentionally absent in this initial scope.

@@ -1,0 +1,6 @@
+{
+  "simulateTimeout": false,
+  "simulateServerError": false,
+  "simulateValidationError": false,
+  "latencyMs": 0
+}

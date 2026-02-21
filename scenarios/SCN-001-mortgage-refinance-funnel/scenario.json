@@ -1,0 +1,16 @@
+{
+  "scenario_id": "SCN-001",
+  "scenario_version": "1.0.0",
+  "name": "Mortgage Refinance Lead Funnel",
+  "persona": "Homeowner seeking refinance options",
+  "steps": [
+    "contact",
+    "loan",
+    "consent"
+  ],
+  "done_criteria": [
+    "Validated multi-step completion",
+    "Idempotent final submission",
+    "Analytics events for key interactions"
+  ]
+}

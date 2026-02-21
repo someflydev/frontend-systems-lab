@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LeadSubmission",
+  "type": "object",
+  "required": [
+    "scenarioId",
+    "scenarioVersion",
+    "idempotencyKey",
+    "contact",
+    "loan",
+    "consent"
+  ],
+  "properties": {
+    "scenarioId": { "const": "SCN-001" },
+    "scenarioVersion": { "type": "string" },
+    "idempotencyKey": { "type": "string", "minLength": 8 },
+    "contact": {
+      "type": "object",
+      "required": ["fullName", "email", "phone", "zip"],
+      "properties": {
+        "fullName": { "type": "string", "minLength": 2 },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "zip": { "type": "string", "minLength": 5, "maxLength": 5 }
+      }
+    },
+    "loan": {
+      "type": "object",
+      "required": ["homeValue", "currentBalance", "creditRange"],
+      "properties": {
+        "homeValue": { "type": "number", "minimum": 50000 },
+        "currentBalance": { "type": "number", "minimum": 0 },
+        "creditRange": { "type": "string" }
+      }
+    },
+    "consent": {
+      "type": "object",
+      "required": ["agreed", "timestamp"],
+      "properties": {
+        "agreed": { "type": "boolean" },
+        "timestamp": { "type": "string" }
+      }
+    }
+  }
+}

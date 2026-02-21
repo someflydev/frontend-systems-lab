@@ -1,0 +1,20 @@
+{
+  "scenarioId": "SCN-001",
+  "scenarioVersion": "1.0.0",
+  "idempotencyKey": "demo-key-12345",
+  "contact": {
+    "fullName": "Alex Morgan",
+    "email": "alex@example.com",
+    "phone": "4155551212",
+    "zip": "94107"
+  },
+  "loan": {
+    "homeValue": 825000,
+    "currentBalance": 420000,
+    "creditRange": "720-759"
+  },
+  "consent": {
+    "agreed": true,
+    "timestamp": "2026-02-21T10:00:00.000Z"
+  }
+}
