@@ -55,12 +55,28 @@ function sleep(ms) {
 }
 
 function send(res, status, payload) {
-  res.writeHead(status, { "content-type": "application/json; charset=utf-8" });
+  res.writeHead(status, {
+    "content-type": "application/json; charset=utf-8",
+    "cache-control": "no-store",
+    "x-content-type-options": "nosniff",
+    "referrer-policy": "no-referrer",
+    "access-control-allow-origin": "*",
+    "access-control-allow-methods": "GET,POST,OPTIONS",
+    "access-control-allow-headers": "content-type,x-scenario-id"
+  });
   res.end(JSON.stringify(payload));
 }
 
 function sendText(res, status, text) {
-  res.writeHead(status, { "content-type": "text/plain; charset=utf-8" });
+  res.writeHead(status, {
+    "content-type": "text/plain; charset=utf-8",
+    "cache-control": "no-store",
+    "x-content-type-options": "nosniff",
+    "referrer-policy": "no-referrer",
+    "access-control-allow-origin": "*",
+    "access-control-allow-methods": "GET,POST,OPTIONS",
+    "access-control-allow-headers": "content-type,x-scenario-id"
+  });
   res.end(text);
 }
 
@@ -132,6 +148,17 @@ function pushAdvisorEvent() {
 
 const server = http.createServer(async (req, res) => {
   const url = parseRequestUrl(req);
+
+  if (req.method === "OPTIONS") {
+    res.writeHead(204, {
+      "cache-control": "no-store",
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET,POST,OPTIONS",
+      "access-control-allow-headers": "content-type,x-scenario-id"
+    });
+    res.end();
+    return;
+  }
 
   if (req.method === "GET" && url.pathname === "/health") {
     return send(res, 200, { ok: true, release });

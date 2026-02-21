@@ -11,6 +11,8 @@ Scenario Name: `Mortgage Refinance Lead Funnel`
 | PII handling in telemetry | no raw applicant PII in client event payloads | `required` |
 | Runtime config isolation | no secrets in frontend bundle | `required` |
 | Upload endpoint safety | non-2xx failures handled without UI crash | `required` |
+| Baseline response headers | CSP + nosniff + frame/referrer policies present on HTML responses | `required` |
+| CORS preflight handling | `OPTIONS` requests accepted for API endpoints used by browser client | `required` |
 
 ## Performance Review
 

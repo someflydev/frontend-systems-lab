@@ -4,6 +4,7 @@ import { validateContact, validateLoan, validateConsent } from "../../shared/val
 
 const PORT = Number(process.env.HTMX_PORT || 3001);
 const API_BASE = process.env.HTMX_API_BASE || "http://localhost:4010";
+const API_ORIGIN = new URL(API_BASE).origin;
 const SCENARIO_ID = "SCN-001";
 const SCENARIO_VERSION = "1.0.0";
 
@@ -141,7 +142,15 @@ function successView(trackingId, deduplicated) {
 }
 
 function sendHtml(res, status, html) {
-  res.writeHead(status, { "content-type": "text/html; charset=utf-8" });
+  res.writeHead(status, {
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "no-store",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "DENY",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "content-security-policy":
+      `default-src 'self'; script-src 'self' https://unpkg.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' ${API_ORIGIN}; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'`
+  });
   res.end(html);
 }
 

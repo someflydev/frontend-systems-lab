@@ -54,6 +54,16 @@ const WS_BASE = API_BASE.replace(/^http/i, "ws");
 const SCENARIO_ID = "SCN-001";
 const SCENARIO_VERSION = "1.0.0";
 const MAX_SUBMIT_ATTEMPTS = 3;
+const DRAFT_STORAGE_KEY = "scn001:funnel-draft:v1";
+
+type DraftPayload = {
+  step: Step;
+  contact: Contact;
+  loan: Loan;
+  consent: Consent;
+  uploadedAttachment?: { fileName: string; fileId: string };
+  savedAt: string;
+};
 
 function validateContact(v: Contact) {
   const errors: Partial<Record<keyof Contact, string>> = {};
@@ -198,6 +208,49 @@ export function App() {
   }
 
   useEffect(() => {
+    const raw = window.sessionStorage.getItem(DRAFT_STORAGE_KEY);
+    if (!raw) return;
+
+    try {
+      const draft = JSON.parse(raw) as DraftPayload;
+      setStep(draft.step);
+      setContact(draft.contact);
+      setLoan(draft.loan);
+      setConsent(draft.consent);
+      if (draft.uploadedAttachment) {
+        setUploadState({
+          status: "uploaded",
+          progress: 100,
+          fileName: draft.uploadedAttachment.fileName,
+          fileId: draft.uploadedAttachment.fileId,
+          error: ""
+        });
+      }
+      setStatusMessage("Recovered in-progress form after refresh.");
+    } catch {
+      window.sessionStorage.removeItem(DRAFT_STORAGE_KEY);
+      setStatusMessage("Saved form data was corrupted and has been reset.");
+      emitClientEvent({ eventType: "async_failure", step: 1, details: { action: "draft_restore", reason: "corrupted" } });
+    }
+  }, []);
+
+  useEffect(() => {
+    const draft: DraftPayload = {
+      step,
+      contact,
+      loan,
+      consent,
+      savedAt: new Date().toISOString()
+    };
+
+    if (uploadState.status === "uploaded") {
+      draft.uploadedAttachment = { fileName: uploadState.fileName, fileId: uploadState.fileId };
+    }
+
+    window.sessionStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
+  }, [step, contact, loan, consent, uploadState.status, uploadState.fileName, uploadState.fileId]);
+
+  useEffect(() => {
     fetch(`${API_BASE}/api/runtime-config`)
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error("runtime_config_fetch_failed"))))
       .then((json: RuntimeConfig) => {
@@ -261,6 +314,7 @@ export function App() {
         const cached = JSON.parse(cachedRaw) as { data: QuoteData; storedAt: string };
         setQuoteState({ status: "stale", data: cached.data, staleAt: cached.storedAt });
       } catch {
+        window.localStorage.removeItem(key);
         setQuoteState({ status: "loading" });
       }
     } else {
@@ -573,6 +627,7 @@ export function App() {
           setLoan({ homeValue: "", currentBalance: "", creditRange: "" });
           setConsent({ agreed: false });
           setUploadState({ status: "idle", progress: 0, fileName: "", fileId: "", error: "" });
+          window.sessionStorage.removeItem(DRAFT_STORAGE_KEY);
           return;
         }
 

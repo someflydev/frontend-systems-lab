@@ -37,6 +37,8 @@ This file is the canonical implementation hardening gate for current scope.
 | React production build | `npm run build --workspace react-ts` | build succeeds | build failure |
 | Perf budget gate | `npm run check:perf` | gate passes against configured threshold once build exists | threshold exceeded |
 | Runtime config path | `curl -s http://localhost:4010/api/runtime-config` | returns `release` and feature flags | missing runtime config keys |
+| Baseline security headers | `curl -si http://localhost:3001/ | rg -n \"content-security-policy|x-content-type-options|x-frame-options|referrer-policy\"` | all required headers present | one or more headers missing |
+| API preflight support | `curl -si -X OPTIONS http://localhost:4010/api/leads/submit` | returns `204` and CORS allow headers | preflight denied or missing allow headers |
 
 ## Hardening Exit Rule
 
