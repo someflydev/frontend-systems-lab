@@ -11,20 +11,14 @@ Shared assets that keep implementations aligned and comparable.
 ## Contracts
 
 - `contracts/lead-submission.contract.json`: canonical request shape
-- `contracts/analytics-events.contract.json`: event taxonomy and required fields
+- `contracts/analytics-events.contract.json`: telemetry taxonomy and required fields
 
 ## Validation
 
-- `validation/leadValidation.mjs`: shared pure validation used in tests and server paths
+- `validation/leadValidation.mjs`: shared validation rules used by baseline server and tests
 
-## Mock API plan
+## Operational consistency rules
 
-- Implemented by `scripts/mock-api.mjs`.
-- Supports:
-  - `POST /api/leads/submit`
-  - `GET /health`
-- Behavior controls through query flags:
-  - `?latencyMs=2500`
-  - `?fail=server`
-  - `?fail=validation`
-  - `?fail=timeout`
+1. Scenario identity remains `SCN-001` and `1.0.0` unless explicitly versioned.
+2. Idempotency key is required for final submission mutation paths.
+3. Telemetry must remain non-blocking and non-PII.

@@ -2,57 +2,29 @@
 
 React + TypeScript implementation of `SCN-001` using Vite.
 
-## Project skeleton
+## Scope
 
-- `src/main.tsx`: application mount
-- `src/App.tsx`: multi-step funnel UI and submit flow
-- `src/styles.css`: baseline styling
-- `vite.config.ts`: build/dev config
+Production-simulated canonical implementation focused on depth and operational maturity.
 
-## State management approach
+## Implemented hardening behaviors
 
-- Local component state for this single-flow scope.
-- State split by domain slice:
-  - contact
-  - loan
-  - consent
-  - current step
+- 3-step funnel with explicit focus and validation summary handling
+- bounded submit retry with idempotency key reuse
+- stale-while-revalidate quote panel with cache marker
+- websocket advisor feed with reconnect and resync path
+- file upload with progress and cancelation
+- offline awareness and non-blocking client telemetry
 
-## Routing
+## Run
 
-- Initial implementation uses single-route flow.
-- Scenario can be expanded to URL-backed steps when deep-link requirements are introduced.
+1. `npm run dev:mock-api`
+2. `npm run dev:react`
+3. Visit `http://localhost:5173`
 
-## Async data handling
+## Build and checks
 
-- `fetch` submission to mock API.
-- Explicit submit status messaging for pending/success/failure.
-- Idempotency key generated per final submit.
-
-## Error boundaries
-
-- Initial scope handles expected errors at form/action level.
-- Global error boundary is deferred until multiple pages/components are introduced.
-
-## Form validation
-
-- Step-local synchronous validation before progression.
-- Final consent check before submission.
-
-## Build tooling
-
-- Vite + React + TypeScript.
-- Dev server: `npm run dev:react`.
-- Production build: `npm run build --workspace react-ts`.
-
-## Bundle strategy
-
-- Keep initial bundle small and single-route.
-- Let Vite emit hashed assets for cache safety.
-- Introduce route/code splitting only when scenario breadth requires it.
-
-## Meaningful differences vs HTMX baseline
-
-- React version is client-state-driven.
-- HTMX version is server-state-driven with fragment responses.
-- Both share the same scenario contract and submission API shape.
+- Build: `npm run build --workspace react-ts`
+- Unit tests: `npm run test`
+- Component contract: `node --test tests/component/*.test.mjs`
+- Accessibility smoke: `npm run check:a11y`
+- Performance gate: `npm run check:perf`

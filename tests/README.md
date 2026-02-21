@@ -1,32 +1,32 @@
 # tests
 
-Quality gate scaffolds for initial artifact phase.
+Quality gate artifacts for SCN-001 hardening.
 
-## Unit example
+## Unit
 
 - `unit/validation.test.mjs`
-- Verifies shared contact and loan validation rules.
+- Prevents core validation rules from regressing.
 
-## Integration example
+## Component contract
+
+- `component/react-contract.test.mjs`
+- Prevents regressions in accessibility and resilience markers in the React implementation.
+
+## Integration
 
 - `integration/mock-api-submit.test.mjs`
-- Starts mock API and validates end-to-end submission acceptance for valid payload.
-- Run with `npm run test:integration`.
+- Prevents API contract drift and submit path breakage.
 
-## E2E example
+## E2E
 
 - `e2e/funnel.e2e.mjs`
-- Starts mock API + HTMX server and verifies core journey markers on live page.
-- Run with `npm run test:e2e`.
+- Prevents route and scenario wiring regressions.
 
-## Accessibility check
+## Execution
 
-- Executed via `npm run check:a11y`.
-- Static semantic smoke check against baseline source.
-
-## Performance budget placeholder
-
-- Executed via `npm run check:perf`.
-- Placeholder budget policy:
-  - target client asset budget: 300 KB initial threshold
-  - fails softly until production build artifacts exist
+- `npm run test`
+- `node --test tests/component/*.test.mjs`
+- `npm run test:integration`
+- `npm run test:e2e`
+- `npm run check:a11y`
+- `npm run check:perf`

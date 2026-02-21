@@ -9,6 +9,16 @@ done
 
 [[ -f "DESIGN_DECISIONS.md" ]] || { echo "missing DESIGN_DECISIONS.md"; exit 1; }
 
+required_docs=(
+  "docs/scenarios/canonical-scenario-spec.md"
+  "docs/operations/production-readiness-checklist.md"
+  "docs/operations/postmortem-simulation.md"
+  "docs/operations/smoke-checks.md"
+)
+for f in "${required_docs[@]}"; do
+  [[ -f "$f" ]] || { echo "missing required doc: $f"; exit 1; }
+done
+
 react_exists=0
 elm_exists=0
 [[ -d "react-ts" ]] && react_exists=1
@@ -32,8 +42,19 @@ fi
 
 [[ -f "scenarios/SCN-001-mortgage-refinance-funnel/scenario.json" ]] || { echo "missing canonical scenario file"; exit 1; }
 
-if ! rg -q "SCN-001" docs/canonical-scenario.md baseline-htmx/src/server.mjs react-ts/src/App.tsx; then
+scenario_dir_count=$(find scenarios -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+if [[ "$scenario_dir_count" -ne 1 ]]; then
+  echo "invalid: expected exactly one scenario directory, found $scenario_dir_count"
+  exit 1
+fi
+
+if ! rg -q "SCN-001" docs/canonical-scenario.md docs/scenarios/canonical-scenario-spec.md baseline-htmx/src/server.mjs react-ts/src/App.tsx; then
   echo "SCN-001 reference consistency check failed"
+  exit 1
+fi
+
+if ! rg -q "PASS|FAIL|Pass criteria|Fail criteria" docs/operations/smoke-checks.md; then
+  echo "smoke checks missing explicit pass/fail criteria"
   exit 1
 fi
 

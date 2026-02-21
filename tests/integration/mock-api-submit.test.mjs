@@ -34,3 +34,28 @@ test("mock api accepts valid lead", async () => {
   const json = await res.json();
   assert.equal(Boolean(json.trackingId), true);
 });
+
+test("idempotency key prevents duplicate tracking id", async () => {
+  const valid = await readFixture();
+  valid.idempotencyKey = "fixed-test-key";
+
+  const first = await fetch("http://localhost:4011/api/leads/submit", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(valid)
+  });
+
+  const second = await fetch("http://localhost:4011/api/leads/submit", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(valid)
+  });
+
+  const firstJson = await first.json();
+  const secondJson = await second.json();
+
+  assert.equal(first.status, 200);
+  assert.equal(second.status, 200);
+  assert.equal(firstJson.trackingId, secondJson.trackingId);
+  assert.equal(secondJson.deduplicated, true);
+});

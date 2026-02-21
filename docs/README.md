@@ -1,9 +1,11 @@
 # docs
 
-Repository-level architecture and operational docs for the initial artifact-first phase.
+Repository-level architecture and operational docs for the canonical scenario.
 
-- `docs/canonical-scenario.md`: one scenario definition used by all implementations.
+- `docs/canonical-scenario.md`: original scenario definition.
+- `docs/scenarios/canonical-scenario-spec.md`: production-level scenario behavior, UX, async, performance, a11y, testing, and operations spec.
 - `docs/shipping-model.md`: build, packaging, cache, and env strategy.
 - `docs/repo-structure.md`: current repo topology and scope contract.
-- `docs/decision-engine/`: constraint-driven frontend architecture decision system (provisional until PROMPT_04 gate evidence exists).
+- `docs/operations/`: production readiness checklist, smoke checks, and postmortem simulation.
+- `docs/decision-engine/`: constraint-driven frontend architecture decision system (currently provisional).
 - `docs/governance/`: architectural integrity controls, complexity budgets, drift triggers, and refactor/delete policy.

@@ -3,7 +3,8 @@
     "funnel_view",
     "step_advanced",
     "validation_failed",
-    "lead_submitted"
+    "lead_submitted",
+    "async_failure"
   ],
   "requiredFields": [
     "scenarioId",
@@ -11,5 +12,9 @@
     "eventType",
     "step",
     "timestamp"
+  ],
+  "notes": [
+    "Do not include raw user PII in client telemetry payloads.",
+    "Use details object for operational metadata only."
   ]
 }

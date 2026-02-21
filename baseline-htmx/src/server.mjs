@@ -4,6 +4,8 @@ import { validateContact, validateLoan, validateConsent } from "../../shared/val
 
 const PORT = Number(process.env.HTMX_PORT || 3001);
 const API_BASE = process.env.HTMX_API_BASE || "http://localhost:4010";
+const SCENARIO_ID = "SCN-001";
+const SCENARIO_VERSION = "1.0.0";
 
 const page = (body) => `<!doctype html>
 <html lang="en">
@@ -13,21 +15,23 @@ const page = (body) => `<!doctype html>
   <title>SCN-001 Refinance Funnel (HTMX Baseline)</title>
   <script src="https://unpkg.com/htmx.org@1.9.12"></script>
   <style>
-    body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; background: #f8fafc; color: #0f172a; }
-    main { max-width: 720px; margin: 0 auto; background: white; border-radius: 12px; padding: 1.25rem; box-shadow: 0 8px 30px rgba(15,23,42,.08); }
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 1.5rem; background: #f8fafc; color: #0f172a; }
+    main { max-width: 760px; margin: 0 auto; background: white; border-radius: 12px; padding: 1.25rem; box-shadow: 0 8px 30px rgba(15,23,42,.08); }
     label { display: block; margin-top: .75rem; font-weight: 600; }
     input, select { width: 100%; padding: .6rem; margin-top: .35rem; border: 1px solid #cbd5e1; border-radius: 8px; }
-    .actions { margin-top: 1rem; display: flex; gap: .5rem; }
+    .actions { margin-top: 1rem; display: flex; gap: .5rem; flex-wrap: wrap; }
     button { padding: .65rem .9rem; border-radius: 8px; border: 1px solid #0f172a; background: #0f172a; color: #fff; cursor: pointer; }
     button.secondary { background: #fff; color: #0f172a; }
     .error { color: #b91c1c; font-size: .9rem; margin-top: .2rem; }
     .banner { padding: .75rem; border-radius: 8px; background: #fef2f2; color: #991b1b; margin-bottom: .75rem; }
+    .summary { border: 1px solid #ef4444; background: #fff1f2; border-radius: 8px; padding: .75rem; margin-bottom: .75rem; }
+    .meta { color: #475569; font-size: .9rem; }
   </style>
 </head>
 <body>
   <main>
     <h1>Mortgage Refinance Check</h1>
-    <p>Scenario: SCN-001 v1.0.0</p>
+    <p class="meta">Scenario: ${SCENARIO_ID} v${SCENARIO_VERSION}</p>
     <div id="funnel-root">${body}</div>
   </main>
 </body>
@@ -37,12 +41,19 @@ function esc(value = "") {
   return String(value).replace(/[&<>\"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 }
 
+function collectErrorSummary(errors = {}) {
+  const items = Object.values(errors).map((msg) => `<li>${esc(msg)}</li>`).join("");
+  if (!items) return "";
+  return `<div class="summary" role="alert"><strong>Fix the following:</strong><ul>${items}</ul></div>`;
+}
+
 function errorLine(errors, key) {
   return errors[key] ? `<div class="error" role="alert">${esc(errors[key])}</div>` : "";
 }
 
 function contactStep(values = {}, errors = {}) {
-  return `<form method="post" action="/steps/contact" hx-post="/steps/contact" hx-target="#funnel-root" hx-swap="innerHTML">
+  return `${collectErrorSummary(errors)}
+  <form method="post" action="/steps/contact" hx-post="/steps/contact" hx-target="#funnel-root" hx-swap="innerHTML">
     <label for="fullName">Full Name</label>
     <input id="fullName" name="fullName" autocomplete="name" value="${esc(values.fullName)}" required />
     ${errorLine(errors, "fullName")}
@@ -64,7 +75,8 @@ function contactStep(values = {}, errors = {}) {
 }
 
 function loanStep(contact, values = {}, errors = {}) {
-  return `<form method="post" action="/steps/loan" hx-post="/steps/loan" hx-target="#funnel-root" hx-swap="innerHTML">
+  return `${collectErrorSummary(errors)}
+  <form method="post" action="/steps/loan" hx-post="/steps/loan" hx-target="#funnel-root" hx-swap="innerHTML">
     <input type="hidden" name="fullName" value="${esc(contact.fullName)}" />
     <input type="hidden" name="email" value="${esc(contact.email)}" />
     <input type="hidden" name="phone" value="${esc(contact.phone)}" />
@@ -96,8 +108,11 @@ function loanStep(contact, values = {}, errors = {}) {
 }
 
 function consentStep(payload, errors = {}, banner = "") {
+  const idempotencyKey = payload.idempotencyKey || crypto.randomUUID();
   return `${banner ? `<div class="banner">${esc(banner)}</div>` : ""}
+  ${collectErrorSummary(errors)}
   <form method="post" action="/submit" hx-post="/submit" hx-target="#funnel-root" hx-swap="innerHTML">
+    <input type="hidden" name="idempotencyKey" value="${esc(idempotencyKey)}" />
     <input type="hidden" name="fullName" value="${esc(payload.contact.fullName)}" />
     <input type="hidden" name="email" value="${esc(payload.contact.email)}" />
     <input type="hidden" name="phone" value="${esc(payload.contact.phone)}" />
@@ -117,10 +132,11 @@ function consentStep(payload, errors = {}, banner = "") {
   </form>`;
 }
 
-function successView(trackingId) {
+function successView(trackingId, deduplicated) {
   return `<section>
     <h2>Thanks, you're in.</h2>
     <p>Your request was received. Tracking ID: <strong>${esc(trackingId)}</strong></p>
+    ${deduplicated ? '<p class="meta">Existing submission was reused via idempotency key.</p>' : ""}
   </section>`;
 }
 
@@ -146,10 +162,69 @@ function parseForm(raw) {
   return Object.fromEntries(params.entries());
 }
 
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRetriableStatus(status) {
+  return status === 408 || status === 429 || status >= 500;
+}
+
+async function postLeadWithRetry(payload) {
+  const maxAttempts = 3;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 7000);
+    try {
+      const res = await fetch(`${API_BASE}/api/leads/submit`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return { ok: true, json };
+      }
+      if (!isRetriableStatus(res.status)) {
+        return { ok: false, reason: `http_${res.status}` };
+      }
+    } catch {
+      // Retry on network or timeout.
+    } finally {
+      clearTimeout(timeout);
+    }
+
+    if (attempt < maxAttempts) {
+      await wait(Math.min(350 * 2 ** (attempt - 1), 2000));
+    }
+  }
+  return { ok: false, reason: "retry_exhausted" };
+}
+
+function logClientEvent(eventType, details = {}) {
+  const payload = {
+    scenarioId: SCENARIO_ID,
+    scenarioVersion: SCENARIO_VERSION,
+    eventType,
+    timestamp: new Date().toISOString(),
+    details
+  };
+
+  fetch(`${API_BASE}/api/client-events`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(payload)
+  }).catch(() => {
+    // Non-blocking log path.
+  });
+}
+
 async function handleRequest(req, res) {
   const { method, url } = req;
 
   if (method === "GET" && url === "/") {
+    logClientEvent("funnel_view", { step: 1, implementation: "baseline-htmx" });
     return sendHtml(res, 200, page(contactStep()));
   }
 
@@ -167,8 +242,10 @@ async function handleRequest(req, res) {
     };
     const errors = validateContact(contact);
     if (Object.keys(errors).length) {
+      logClientEvent("validation_failed", { step: 1, fields: Object.keys(errors) });
       return sendHtml(res, 422, contactStep(contact, errors));
     }
+    logClientEvent("step_advanced", { toStep: 2 });
     return sendHtml(res, 200, loanStep(contact));
   }
 
@@ -187,16 +264,22 @@ async function handleRequest(req, res) {
     };
     const errors = validateLoan(loan);
     if (Object.keys(errors).length) {
+      logClientEvent("validation_failed", { step: 2, fields: Object.keys(errors) });
       return sendHtml(res, 422, loanStep(contact, loan, errors));
     }
-    return sendHtml(res, 200, consentStep({ contact, loan, consent: { agreed: false } }));
+    logClientEvent("step_advanced", { toStep: 3 });
+    return sendHtml(
+      res,
+      200,
+      consentStep({ contact, loan, consent: { agreed: false }, idempotencyKey: crypto.randomUUID() })
+    );
   }
 
   if (method === "POST" && url === "/submit") {
     const form = parseForm(await readBody(req));
     const payload = {
-      scenarioId: "SCN-001",
-      scenarioVersion: "1.0.0",
+      scenarioId: SCENARIO_ID,
+      scenarioVersion: SCENARIO_VERSION,
       idempotencyKey: form.idempotencyKey || crypto.randomUUID(),
       contact: {
         fullName: form.fullName,
@@ -217,25 +300,22 @@ async function handleRequest(req, res) {
 
     const consentErrors = validateConsent(payload.consent);
     if (Object.keys(consentErrors).length) {
+      logClientEvent("validation_failed", { step: 3, fields: Object.keys(consentErrors) });
       return sendHtml(res, 422, consentStep(payload, consentErrors));
     }
 
-    try {
-      const apiRes = await fetch(`${API_BASE}/api/leads/submit`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      if (!apiRes.ok) {
-        return sendHtml(res, 502, consentStep(payload, {}, "Service is busy. Please retry."));
-      }
-
-      const json = await apiRes.json();
-      return sendHtml(res, 200, successView(json.trackingId));
-    } catch {
-      return sendHtml(res, 502, consentStep(payload, {}, "Network error. Please retry."));
+    const submission = await postLeadWithRetry(payload);
+    if (!submission.ok) {
+      logClientEvent("async_failure", { step: 3, reason: submission.reason });
+      return sendHtml(
+        res,
+        502,
+        consentStep(payload, {}, "Submission failed after retries. Please review and try again.")
+      );
     }
+
+    logClientEvent("lead_submitted", { step: 3, trackingId: submission.json.trackingId });
+    return sendHtml(res, 200, successView(submission.json.trackingId, submission.json.deduplicated));
   }
 
   sendHtml(res, 404, "Not found");
