@@ -6,3 +6,4 @@ Repository-level architecture and operational docs for the initial artifact-firs
 - `docs/shipping-model.md`: build, packaging, cache, and env strategy.
 - `docs/repo-structure.md`: current repo topology and scope contract.
 - `docs/decision-engine/`: constraint-driven frontend architecture decision system (provisional until PROMPT_04 gate evidence exists).
+- `docs/governance/`: architectural integrity controls, complexity budgets, drift triggers, and refactor/delete policy.
