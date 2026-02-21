@@ -7,5 +7,7 @@ Repository-level architecture and operational docs for the canonical scenario.
 - `docs/shipping-model.md`: build, packaging, cache, and env strategy.
 - `docs/repo-structure.md`: current repo topology and scope contract.
 - `docs/operations/`: production readiness checklist, smoke checks, and postmortem simulation.
+- `docs/public/`: public-facing case study and talk/blog extraction artifacts.
+- `docs/integration/`: assumptions and portfolio integration contract stubs.
 - `docs/decision-engine/`: constraint-driven frontend architecture decision system (currently provisional).
 - `docs/governance/`: architectural integrity controls, complexity budgets, drift triggers, and refactor/delete policy.
