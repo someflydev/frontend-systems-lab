@@ -8,6 +8,6 @@ Repository-level architecture and operational docs for the canonical scenario.
 - `docs/repo-structure.md`: current repo topology and scope contract.
 - `docs/operations/`: production readiness checklist, smoke checks, and postmortem simulation.
 - `docs/public/`: public-facing case study and talk/blog extraction artifacts.
-- `docs/integration/`: assumptions and portfolio integration contract stubs.
+- `docs/integration/`: assumptions, cross-lab scenario, system diagrams, and integration contract stubs.
 - `docs/decision-engine/`: constraint-driven frontend architecture decision system (currently provisional).
 - `docs/governance/`: architectural integrity controls, complexity budgets, drift triggers, and refactor/delete policy.
