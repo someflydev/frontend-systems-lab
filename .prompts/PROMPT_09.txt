@@ -1,0 +1,104 @@
+Title: Stage-2B Minimal CI Baseline (Quality Gates Without Scope Expansion)
+
+You are a Staff+ Frontend Engineer adding the smallest credible CI automation for `frontend-systems-lab`.
+
+Mission
+- Convert documented quality gates into executable CI evidence.
+- Keep CI narrow, fast, and aligned with current repo reality.
+
+Priority alignment
+- Addresses: `ISSUE-P1-01`, `ISSUE-P1-02`, `ISSUE-P2-05`
+- Supports highest-leverage improvement from `POST_FLIGHT_REPORT.md`
+
+------------------------------------------------------------
+SECTION 1 — OBJECTIVE
+------------------------------------------------------------
+
+Add a minimal GitHub Actions workflow that runs reproducible install + repository integrity checks + selected tests/checks. CI should prove the core repo claims without pretending to validate everything.
+
+------------------------------------------------------------
+SECTION 2 — ARTIFACTS TO CREATE / MODIFY (EXACT PATHS)
+------------------------------------------------------------
+
+Create or modify only:
+
+- `.github/workflows/ci.yml` (create)
+- `package.json` (optional; add `ci:local` aggregate script if useful)
+- `README.md` (optional; CI badge/reference only if workflow is added)
+- `RELEASE_NOTES.md` (optional; align “known limitations” wording if CI materially changes confidence)
+- `docs/operations/smoke-checks.md` (optional; reference CI-covered vs manual checks)
+
+Do not add release/publish workflows in this prompt.
+
+------------------------------------------------------------
+SECTION 3 — REQUIRED CI SCOPE
+------------------------------------------------------------
+
+CI must run at minimum:
+
+1. `npm ci`
+2. `npm run verify:outputs`
+3. `npm run test:unit`
+4. `npm run test:component`
+5. `npm run check:a11y`
+
+CI may also run (recommended if stable in hosted runner):
+- `npm run build --workspace react-ts`
+- `npm run check:perf` (non-blocking if build artifacts absent, unless Stage-2A makes it deterministic)
+- `node scripts/smoke-stack.mjs` (only if Stage-2A lands first and is stable on CI)
+
+------------------------------------------------------------
+SECTION 4 — ACCEPTANCE CRITERIA (EXECUTABLE / VERIFIABLE)
+------------------------------------------------------------
+
+1. Workflow file exists
+- `test -f .github/workflows/ci.yml`
+
+2. Workflow includes required commands
+- `rg -n \"npm ci|verify:outputs|test:unit|test:component|check:a11y\" .github/workflows/ci.yml`
+- Expected: all required commands are present.
+
+3. If `ci:local` script is added, it runs locally
+- `npm run ci:local`
+- Expected: exits `0` and mirrors CI command order.
+
+4. CI scope is documented accurately (if README updated)
+- `rg -n \"CI|GitHub Actions\" README.md`
+- Expected: no claims beyond commands actually in `.github/workflows/ci.yml`.
+
+------------------------------------------------------------
+SECTION 5 — ANTI-SCOPE (MUST NOT DO)
+------------------------------------------------------------
+
+- Do not add matrix builds (OS/node-version matrix) in this prompt.
+- Do not add deploy/release publishing automation.
+- Do not add caching optimization complexity unless CI runtime is clearly problematic.
+- Do not add external services (database, Redis, containers).
+
+------------------------------------------------------------
+SECTION 6 — OVERENGINEERING GUARDRAILS
+------------------------------------------------------------
+
+- Single workflow file (`ci.yml`) only.
+- Single job unless there is a hard failure-isolation reason.
+- Prefer explicit shell steps over reusable composite actions for now.
+- No badge proliferation; one CI badge maximum.
+
+------------------------------------------------------------
+SECTION 7 — RISKS & MITIGATIONS
+------------------------------------------------------------
+
+- Risk: Hosted runner cannot execute stack smoke due port/process behavior.
+  - Mitigation: Keep smoke harness optional in this prompt; mark as follow-up if unstable.
+- Risk: CI implies stronger runtime coverage than actual tests provide.
+  - Mitigation: Document exactly which checks are static vs runtime until Stage-2C lands.
+
+------------------------------------------------------------
+SECTION 8 — EVIDENCE TO INCLUDE IN DIFF SUMMARY
+------------------------------------------------------------
+
+- `.github/workflows/ci.yml` contents (command list)
+- Optional `package.json` `ci:local` script
+- CI badge/reference changes (if any)
+- Local run output for `npm run ci:local` or equivalent command sequence
+

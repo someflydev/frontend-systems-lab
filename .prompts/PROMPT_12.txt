@@ -1,0 +1,105 @@
+Title: Stage-2E Release Hygiene + Public Repo Baseline Alignment (No Scope Expansion)
+
+You are a Staff+ Frontend Engineer finalizing release hygiene for `frontend-systems-lab` v1.x.
+
+Mission
+- Close the highest-impact release packaging/documentation gaps left by the audit.
+- Align repo claims with actual verified capabilities.
+- Avoid polishing work that expands scope.
+
+Priority alignment
+- Addresses: `ISSUE-P1-05`, `ISSUE-P2-04`, `ISSUE-NS-02`, `ISSUE-NS-06`
+
+------------------------------------------------------------
+SECTION 1 — OBJECTIVE
+------------------------------------------------------------
+
+Add missing legal/release hygiene artifacts and align documentation/status wording with the current verification reality after Stage-2A..D. This prompt should improve public trust without changing implementation scope.
+
+------------------------------------------------------------
+SECTION 2 — ARTIFACTS TO CREATE / MODIFY (EXACT PATHS)
+------------------------------------------------------------
+
+Create or modify only:
+
+- `LICENSE` (create; explicit OSS license)
+- `README.md` (license reference, command naming alignment, CI references if present)
+- `RELEASE_NOTES.md` (align verified/manual checks; include license mention if appropriate)
+- `docs/release/v1-freeze-decision.md` (align freeze evidence language with actual CI/runtime status)
+- `docs/decision-engine/CONSTRAINT_TAXONOMY.md`
+- `docs/decision-engine/FRAMEWORK_CAPABILITY_MATRIX.md`
+- `docs/decision-engine/DECISION_FLOW.md`
+- `docs/README.md` (status/index alignment only if needed)
+
+Optional (only if strictly needed for consistency):
+- `VERSIONING.md`
+- `CONTRIBUTING.md`
+
+------------------------------------------------------------
+SECTION 3 — REQUIRED OUTCOMES
+------------------------------------------------------------
+
+1. Public license is explicit and discoverable.
+2. README command names match actual `package.json` scripts after Stage-2 changes.
+3. Release notes and freeze decision distinguish:
+- automated checks (CI/local deterministic)
+- manual checks / environment-limited checks
+4. Decision-engine docs are no longer left in ambiguous “provisional” state now that `docs/operations/smoke-checks.md` exists.
+- If still provisional, explain exactly why with explicit criteria.
+
+------------------------------------------------------------
+SECTION 4 — ACCEPTANCE CRITERIA (EXECUTABLE / VERIFIABLE)
+------------------------------------------------------------
+
+1. License file exists and is referenced
+- `test -f LICENSE`
+- `rg -n \"License|MIT|Apache\" README.md RELEASE_NOTES.md`
+
+2. README script names align with package scripts
+- `node -e \"const p=require('./package.json'); console.log(Object.keys(p.scripts).sort().join('\\n'))\" > /tmp/pkg-scripts.txt`
+- `rg -n \"npm run (test(:[a-z-]+)?|check:[a-z-]+|verify:outputs|ci:local)\" README.md docs/release/v1-freeze-decision.md`
+- Expected: referenced commands exist in `package.json`.
+
+3. Decision-engine status alignment
+- `rg -n \"provisional|validated|status\" docs/decision-engine/*.md`
+- Expected: status wording is explicit and internally consistent.
+
+4. Output integrity remains green
+- `npm run verify:outputs`
+- Expected: `output verification passed`
+
+------------------------------------------------------------
+SECTION 5 — ANTI-SCOPE (MUST NOT DO)
+------------------------------------------------------------
+
+- Do not rewrite public docs for marketing polish.
+- Do not add new governance/decision-engine features.
+- Do not add badges beyond CI/license (if any).
+- Do not add new release automation.
+
+------------------------------------------------------------
+SECTION 6 — OVERENGINEERING GUARDRAILS
+------------------------------------------------------------
+
+- Prefer targeted wording updates over broad doc rewrites.
+- Keep legal choice standard (MIT or Apache-2.0) unless project owner specifies otherwise.
+- Only touch decision-engine docs for status/validation clarity, not content expansion.
+
+------------------------------------------------------------
+SECTION 7 — RISKS & MITIGATIONS
+------------------------------------------------------------
+
+- Risk: License selection is owner-governance decision.
+  - Mitigation: Choose a standard permissive license and document the choice; if owner preference unknown, note follow-up.
+- Risk: Docs drift continues if script names change again later.
+  - Mitigation: Add a small consistency check or checklist note in `CONTRIBUTING.md` / release docs.
+
+------------------------------------------------------------
+SECTION 8 — EVIDENCE TO INCLUDE IN DIFF SUMMARY
+------------------------------------------------------------
+
+- `LICENSE` added
+- `README.md` / `RELEASE_NOTES.md` / freeze decision alignment diffs
+- Decision-engine status wording diff
+- Output of `npm run verify:outputs`
+

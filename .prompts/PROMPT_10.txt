@@ -1,0 +1,115 @@
+Title: Stage-2C Runtime Validation Upgrade (Component Behavior + Runtime A11y Smoke)
+
+You are a Staff+ Frontend Engineer fixing false-confidence test labels in `frontend-systems-lab`.
+
+Mission
+- Keep existing cheap source-contract checks if useful.
+- Add one real runtime-rendered component test and one runtime page-level a11y smoke check.
+- Make test taxonomy honest.
+
+Priority alignment
+- Addresses: `ISSUE-P1-03`, `ISSUE-NS-03`
+
+------------------------------------------------------------
+SECTION 1 — OBJECTIVE
+------------------------------------------------------------
+
+Replace the current “looks like a test but is source grep” ambiguity with a minimal layered validation approach:
+
+- source-contract checks remain fast and explicitly named
+- runtime component check validates actual render behavior
+- runtime a11y smoke validates generated HTML/page output (not source text)
+
+------------------------------------------------------------
+SECTION 2 — ARTIFACTS TO CREATE / MODIFY (EXACT PATHS)
+------------------------------------------------------------
+
+Create or modify only:
+
+- `tests/component/react-contract.test.mjs` (rename or relabel if kept as source contract)
+- `tests/component/react-runtime.test.mjs` (create; real runtime-rendered test)
+- `scripts/check-a11y.mjs` (modify to become aggregate or runtime check)
+- `scripts/check-a11y-static.mjs` (create if preserving current static check separately)
+- `package.json` (script names: e.g., `check:a11y:static`, `check:a11y:runtime`, `check:a11y`)
+- `README.md` (optional; command naming alignment)
+- `docs/operations/smoke-checks.md` (optional; classify static vs runtime checks)
+- `baseline-htmx/src/server.mjs` (only if minimal export/refactor is required to support runtime HTML generation without starting a server)
+- `react-ts/src/` files only if a tiny presentational component extraction is required for runtime rendering test
+
+------------------------------------------------------------
+SECTION 3 — REQUIRED VALIDATION BEHAVIOR
+------------------------------------------------------------
+
+1. Runtime-rendered component test
+- Must execute component render logic (not text search).
+- Keep dependency additions minimal:
+  - Prefer `react-dom/server` or built-in React test utilities first.
+  - Add external test libs only if necessary and justified.
+
+2. Runtime page-level a11y smoke
+- Must inspect runtime-generated HTML/page output (function render or HTTP response), not source files.
+- Validate at least:
+  - landmark presence (`main`)
+  - primary heading
+  - form label/control association pattern
+  - viewport meta (if checking document shell)
+
+3. Honest naming
+- If static source checks remain, name them explicitly as `source`/`static`.
+
+------------------------------------------------------------
+SECTION 4 — ACCEPTANCE CRITERIA (EXECUTABLE)
+------------------------------------------------------------
+
+1. Component runtime test executes
+- `node --test tests/component/*.test.mjs`
+- Expected: includes at least one test file that imports runtime code and performs assertions on rendered output/behavior.
+
+2. A11y runtime smoke executes
+- `npm run check:a11y`
+- Expected: prints whether static and runtime checks passed (or clearly reports runtime-only pass if static was removed).
+
+3. Static-vs-runtime taxonomy is explicit
+- `node -e \"const p=require('./package.json'); console.log(Object.keys(p.scripts).filter(k=>k.startsWith('check:a11y')).sort().join(','))\"`
+- Expected: command names unambiguously distinguish static/runtime if both exist.
+
+4. Documentation alignment (if docs touched)
+- `rg -n \"static|runtime\" docs/operations/smoke-checks.md README.md`
+- Expected: terminology matches script names.
+
+------------------------------------------------------------
+SECTION 5 — ANTI-SCOPE (MUST NOT DO)
+------------------------------------------------------------
+
+- Do not introduce a full browser E2E framework rewrite.
+- Do not build a comprehensive a11y testing stack in this prompt.
+- Do not refactor the entire React app for testability.
+- Do not add snapshot-heavy tests.
+
+------------------------------------------------------------
+SECTION 6 — OVERENGINEERING GUARDRAILS
+------------------------------------------------------------
+
+- Add exactly one runtime component test and one runtime a11y smoke path.
+- Keep existing source-contract checks if they provide cheap value, but relabel them.
+- Prefer local helper extraction over introducing a new test framework stack.
+
+------------------------------------------------------------
+SECTION 7 — RISKS & MITIGATIONS
+------------------------------------------------------------
+
+- Risk: `react-ts/src/App.tsx` is too side-effectful to import directly in node tests.
+  - Mitigation: Extract a small pure presentational component or render helper with no scope expansion.
+- Risk: Runtime a11y check needs server startup and becomes flaky.
+  - Mitigation: Prefer testing generated HTML via exported render function when possible.
+
+------------------------------------------------------------
+SECTION 8 — EVIDENCE TO INCLUDE IN DIFF SUMMARY
+------------------------------------------------------------
+
+- New/renamed component test files and what each validates
+- Updated a11y scripts and script names in `package.json`
+- Terminal output for:
+  - `node --test tests/component/*.test.mjs`
+  - `npm run check:a11y`
+

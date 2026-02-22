@@ -1,0 +1,104 @@
+Title: Stage-2D Contract Integrity + Telemetry Alignment + Lightweight Automation Hooks
+
+You are a Staff+ Frontend Engineer closing contract drift and adding minimal automated contract checks in `frontend-systems-lab`.
+
+Mission
+- Align HTMX telemetry payloads with the shared analytics contract.
+- Add a lightweight contract validation script to prevent regressions.
+- Improve evidence quality without adding abstraction layers.
+
+Priority alignment
+- Addresses: `ISSUE-P2-01`, strengthens `ISSUE-P2-05`
+
+------------------------------------------------------------
+SECTION 1 — OBJECTIVE
+------------------------------------------------------------
+
+Fix the known telemetry payload shape drift (`step` field) and add a small automated contract check that runs locally and in CI. Keep the contract tooling simple and repo-native.
+
+------------------------------------------------------------
+SECTION 2 — ARTIFACTS TO CREATE / MODIFY (EXACT PATHS)
+------------------------------------------------------------
+
+Create or modify only:
+
+- `baseline-htmx/src/server.mjs` (telemetry payload alignment)
+- `shared/contracts/analytics-events.contract.json` (only if wording/metadata needs clarification; do not loosen requirements without evidence)
+- `scripts/check-contracts.mjs` (create; lightweight schema/contract assertions)
+- `package.json` (add `check:contracts`; optionally include in `test:quick` or `ci:local`)
+- `tests/unit/` or `tests/integration/`:
+  - `tests/unit/analytics-contract.test.mjs` (create, if script-only check is insufficient)
+- `docs/operations/smoke-checks.md` (optional; reference contract check)
+- `.github/workflows/ci.yml` (optional; only to add `check:contracts` if Stage-2B already exists)
+
+------------------------------------------------------------
+SECTION 3 — REQUIRED CONTRACT CHECK SCOPE
+------------------------------------------------------------
+
+At minimum, enforce:
+
+1. Shared analytics contract declares required fields including `step`.
+2. HTMX baseline telemetry payload builder includes a top-level `step`.
+3. At least one representative emitted event path passes the contract check.
+
+Acceptable implementation approaches:
+- static structural validation + sample payload checks, or
+- runtime payload interception in a unit/integration test
+
+Prefer the simplest approach that clearly catches the audited drift.
+
+------------------------------------------------------------
+SECTION 4 — ACCEPTANCE CRITERIA (EXECUTABLE)
+------------------------------------------------------------
+
+1. Contract check script runs
+- `node scripts/check-contracts.mjs`
+- Expected: prints pass message and exits `0`.
+
+2. Package script exists
+- `node -e \"const p=require('./package.json'); console.log(p.scripts['check:contracts'])\"`
+- Expected: non-empty output.
+
+3. HTMX payload includes top-level `step`
+- `rg -n \"step\\s*:\" baseline-htmx/src/server.mjs`
+- Expected: telemetry payload construction includes a top-level `step`.
+
+4. Regression guard integrated
+- If CI exists: `rg -n \"check:contracts\" .github/workflows/ci.yml`
+- If CI does not exist yet: `rg -n \"check:contracts\" package.json docs/operations/smoke-checks.md`
+- Expected: at least one automated path invokes contract checks.
+
+------------------------------------------------------------
+SECTION 5 — ANTI-SCOPE (MUST NOT DO)
+------------------------------------------------------------
+
+- Do not introduce a full JSON Schema validation framework unless the current contract format requires it.
+- Do not rewrite analytics event architecture.
+- Do not add new event types or telemetry features.
+
+------------------------------------------------------------
+SECTION 6 — OVERENGINEERING GUARDRAILS
+------------------------------------------------------------
+
+- One lightweight contract-check script only.
+- Validate the audited drift and the current shared contract; do not build a generalized contract engine.
+- Preserve existing contract file format unless a breaking flaw is proven.
+
+------------------------------------------------------------
+SECTION 7 — RISKS & MITIGATIONS
+------------------------------------------------------------
+
+- Risk: Contract file is informal and not strict JSON Schema.
+  - Mitigation: Implement targeted checks for required fields and representative payload shape.
+- Risk: Payload `step` is not available at all call sites.
+  - Mitigation: Define a consistent fallback rule (e.g., explicit step argument required; reject emit if missing in dev checks).
+
+------------------------------------------------------------
+SECTION 8 — EVIDENCE TO INCLUDE IN DIFF SUMMARY
+------------------------------------------------------------
+
+- `baseline-htmx/src/server.mjs` payload diff showing top-level `step`
+- New `scripts/check-contracts.mjs`
+- `package.json` script wiring
+- Output of `node scripts/check-contracts.mjs`
+

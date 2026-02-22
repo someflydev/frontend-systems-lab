@@ -1,0 +1,139 @@
+Title: Stage-2A Capstone Wiring + Deterministic Bring-Up/Check/Teardown
+
+You are a Staff+ Frontend Engineer hardening `frontend-systems-lab` after the post-flight audit.
+
+Mission
+- Fix the highest-risk runnable-path gaps identified in `POST_FLIGHT_REPORT.md`.
+- Establish one deterministic local/CI smoke path for the canonical system.
+- Preserve v1.0 scope (one scenario, HTMX baseline + React TS only).
+
+Priority alignment
+- Addresses: `ISSUE-P0-01`, `ISSUE-P1-02`, `ISSUE-P1-04`
+- Highest-leverage improvement: deterministic verification harness + reproducible install baseline
+
+------------------------------------------------------------
+SECTION 1 — OBJECTIVE
+------------------------------------------------------------
+
+Implement the smallest set of changes that make the repo reproducibly installable and buildable, and add a deterministic smoke harness that can bring up the canonical stack, verify one behavior-level happy path, and tear it down cleanly.
+
+This prompt is about wiring and verification reliability, not feature work.
+
+------------------------------------------------------------
+SECTION 2 — ARTIFACTS TO CREATE / MODIFY (EXACT PATHS)
+------------------------------------------------------------
+
+Create or modify only the following unless strictly required for acceptance criteria:
+
+- `react-ts/src/vite-env.d.ts` (create; Vite env typings)
+- `package-lock.json` (create/commit root lockfile)
+- `package.json` (scripts rename/aggregation for deterministic checks)
+- `scripts/`:
+  - `scripts/smoke-stack.mjs` (create; deterministic bring-up/check/teardown harness)
+  - `scripts/smoke-stack.README.md` (optional, only if script usage is non-obvious)
+- `tests/e2e/funnel.e2e.mjs` (modify only if needed to support deterministic harness invocation)
+- `scripts/mock-api.mjs` (modify only if needed for deterministic startup/shutdown hooks)
+- `baseline-htmx/src/server.mjs` (modify only if needed for deterministic startup/shutdown hooks)
+- `README.md` (update run/test commands if script names change)
+- `docs/operations/smoke-checks.md` (align with exact smoke harness command)
+
+Do not modify unrelated docs or add new scenarios.
+
+------------------------------------------------------------
+SECTION 3 — REQUIRED CHANGES
+------------------------------------------------------------
+
+1. Fix React/Vite typing gap:
+- Add `react-ts/src/vite-env.d.ts` so `import.meta.env` usage in `react-ts/src/App.tsx` typechecks/builds under Vite.
+
+2. Reproducible dependency baseline:
+- Generate and commit root `package-lock.json`.
+- Do not add new heavy dependencies in this prompt.
+
+3. Test command clarity (minimal):
+- Introduce explicit `test:unit` script.
+- Keep a fast aggregate (e.g., `test:quick`) that is honest about what it runs.
+- Ensure `npm test` semantics are not misleading (either alias to `test:unit` with clear naming, or widen it deliberately and document it).
+
+4. Deterministic smoke harness:
+- Add a single script that:
+  - starts mock API + baseline app (and/or React preview path if chosen)
+  - waits for readiness
+  - runs one behavior-level validation (HTTP flow or scriptable E2E smoke)
+  - tears down child processes even on failure
+- Produce clear non-zero exit codes on failure.
+- Keep this harness dependency-light and CI-friendly.
+
+------------------------------------------------------------
+SECTION 4 — ACCEPTANCE CRITERIA (EXECUTABLE)
+------------------------------------------------------------
+
+All commands must exit `0` and produce expected evidence:
+
+1. Install reproducibility baseline
+- `npm ci`
+- Expected: installs from committed `package-lock.json` without lockfile mutation.
+
+2. React build/typecheck path
+- `npm run build --workspace react-ts`
+- Expected: build succeeds; no `import.meta.env` typing error.
+
+3. Output guardrail still passes
+- `npm run verify:outputs`
+- Expected: `output verification passed`
+
+4. Test naming clarity
+- `node -e "const p=require('./package.json'); console.log(!!p.scripts['test:unit'], !!p.scripts['test:quick'])"`
+- Expected: prints `true true`
+
+5. Deterministic smoke harness
+- `node scripts/smoke-stack.mjs`
+- Expected: logs explicit phases (`bring-up`, `check`, `teardown`) and ends with `smoke stack passed` (exact phrase or documented equivalent)
+
+6. Docs command alignment
+- `rg -n \"smoke-stack|test:unit|test:quick\" README.md docs/operations/smoke-checks.md`
+- Expected: command names documented consistently.
+
+------------------------------------------------------------
+SECTION 5 — ANTI-SCOPE (MUST NOT DO)
+------------------------------------------------------------
+
+- Do not add new frameworks, scenarios, or architecture layers.
+- Do not refactor `react-ts/src/App.tsx` into modules in this prompt.
+- Do not replace existing integration/E2E tests wholesale.
+- Do not introduce Docker/Compose.
+- Do not add browser automation dependencies unless the existing harness cannot be made deterministic without them.
+
+------------------------------------------------------------
+SECTION 6 — OVERENGINEERING GUARDRAILS
+------------------------------------------------------------
+
+- Prefer one smoke harness script over a generalized orchestration framework.
+- Reuse existing scripts/endpoints instead of inventing a new “runner” abstraction.
+- If readiness checks are needed, implement simple polling with timeout constants in one file.
+- Keep process management local to `scripts/smoke-stack.mjs`; do not create a reusable process library yet.
+
+------------------------------------------------------------
+SECTION 7 — RISKS & MITIGATIONS
+------------------------------------------------------------
+
+- Risk: Local sandbox/CI port restrictions make full stack smoke brittle.
+  - Mitigation: Make ports configurable via env; fail fast with clear message; support a function-level fallback check if necessary.
+- Risk: Script renaming breaks docs/examples.
+  - Mitigation: Update `README.md` and `docs/operations/smoke-checks.md` in the same diff.
+- Risk: `npm ci` fails if workspace lock resolution is inconsistent.
+  - Mitigation: Regenerate lockfile once from root and commit resulting stable file only.
+
+------------------------------------------------------------
+SECTION 8 — EVIDENCE TO INCLUDE IN DIFF SUMMARY
+------------------------------------------------------------
+
+- `react-ts/src/vite-env.d.ts` added
+- `package-lock.json` committed
+- Root `package.json` script changes (`test`, `test:unit`, `test:quick`, smoke command)
+- New `scripts/smoke-stack.mjs`
+- Terminal outputs for:
+  - `npm run build --workspace react-ts`
+  - `npm run verify:outputs`
+  - `node scripts/smoke-stack.mjs`
+
